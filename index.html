@@ -408,6 +408,21 @@ dialog.demoDlg::backdrop{background:rgba(20,33,61,.55);-webkit-backdrop-filter:b
 .list a{align-items:baseline}
 .list a span{flex:none}
 
+/* subscribe box (end card + plain-page footer) */
+.sub{margin-top:12px}
+.subRow{display:flex;gap:8px}
+.sub input[type=email]{flex:1;min-width:0;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(20,33,61,.32);background:#fbfaf7;font:400 14px/1 var(--body);color:var(--ink)}
+.sub input[type=email]:focus{border-color:var(--ink)}
+.sub .btn{height:36px;flex:none}
+.card .subNote{margin-top:6px!important;font:500 10.5px/1.3 var(--mono);letter-spacing:.04em;color:#5b6a8c}
+.card .sub+.btns{margin-top:12px}
+.endClosing{max-width:52ch}
+.subDark{width:min(440px,100%);margin-top:16px}
+.subDark input[type=email]{background:#fff;border-color:#fff}
+.subDark .subNote{margin-top:8px;font:500 11px/1.3 var(--mono);letter-spacing:.04em;color:#b9c0d8}
+.subNote.ok{color:var(--moss)}
+.subDark .subNote.ok{color:#9fe0c0}
+
 /* contact form */
 dialog.contact{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.35);overflow:auto}
 dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -586,7 +601,9 @@ const SITE = {
   lizardSign: "<b>Save Binge as an app on your phone!</b> Visit the site and hit <b>Share</b>, then <b>Add to Home Screen</b>.",
   /* the popup after you catch the bug */
   wip: {title: "Works In Progress", text: "a lot more still to come!", button: "Can't wait!"},
-  closing: "Placeholder closing message. A sentence or two to end the walk and invite people to get in touch.",
+  closing: "Thanks for checking out my work! I'm coming out with new things all the time, add your email here to stay up to date with all my projects and articles.",
+  /* the email box under the closing line signs people up to Mi Thinks (Substack's own signup address) */
+  subscribe: {action: "https://mithinks.substack.com/api/v1/free?nojs=true", note: "Subscribes you to Mi Thinks on Substack."},
   /* The Contact Me form posts here (FormSubmit: free, no account). Messages arrive by email and the address is never shown on the page.
      After the first message, FormSubmit emails a random alias; swap it in for the address to hide it from the page source too. */
   contact: {
@@ -743,6 +760,12 @@ function elsewhereHTML(){
     <div class="orbitbox"><svg class="ringsvg" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="74" pathLength="1"/></svg>
     <div class="orbit">${SITE.socials.map((s,k)=>`<div class="sl" style="--a:${(k*360/n).toFixed(1)}deg"><div class="un"><div class="sp"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></div></div></div>`).join("")}</div></div></div>`;
 }
+const subscribeHTML = (dark) => `<form class="sub${dark?" subDark":""}" action="${SITE.subscribe.action}" method="post" target="_blank" rel="noopener">
+    <input type="hidden" name="source" value="embed"><input type="hidden" name="first_url" value=""><input type="hidden" name="current_url" value="">
+    <label class="sr" for="sub${dark?"B":"A"}">Your email</label>
+    <div class="subRow"><input id="sub${dark?"B":"A"}" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="200"><button class="btn solid" type="submit">Subscribe</button></div>
+    <p class="subNote" aria-live="polite">${SITE.subscribe.note}</p>
+  </form>`;
 function cardHTML(i){
   if(i===0) return `${eb(i,"Start")}<h1>Hi, I'm <em>${SITE.name}</em>.</h1><p>${SITE.tagline}</p>
     <ul class="route">${SITE.route.map(r=>`<li><b>${r.label}</b><span>${r.text}</span></li>`).join("")}</ul>
@@ -750,7 +773,7 @@ function cardHTML(i){
     <p class="hint">Scroll to start walking <span aria-hidden="true">↓</span></p>`;
   if(i===1) return `<div class="aboutTop">${photoHTML()}<div class="aboutHead">${eb(i,"About")}<h2>A little about me</h2></div></div>${SITE.bio.map(t=>`<p>${t}</p>`).join("")}`;
   if(i===ESSAYS) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul><a class="link" href="${SITE.substack.url}" target="_blank" rel="noopener">More on ${SITE.substack.name} →</a>`;
-  return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p><div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
+  return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p>${subscribeHTML(false)}<div class="btns"><button class="btn" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
 }
 
 /* ---------- Everything view ---------- */
@@ -790,7 +813,7 @@ function buildAll(){
   <footer class="end">
     <div class="dot" aria-hidden="true"></div>
     <h2>End of the path.</h2>
-    <p>${SITE.closing}</p>
+    <p class="endClosing">${SITE.closing}</p>${subscribeHTML(true)}
     <div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="trail">← Return to the scenic route</button></div>
   </footer>`;
 }
@@ -1169,6 +1192,14 @@ document.addEventListener("click", e=>{
   else if(a==="democlose") demoDlg.close();
   else if(a==="demoprev") showDemo(demoAt-1);
   else if(a==="demonext") showDemo(demoAt+1);
+});
+
+/* ---------- Subscribe box ---------- */
+document.addEventListener("submit", e=>{
+  const f = e.target.closest(".sub"); if(!f) return;
+  f.elements.first_url.value = f.elements.current_url.value = location.href;
+  const note = f.querySelector(".subNote");
+  setTimeout(()=>{ f.reset(); note.textContent = "Almost done! Confirm in the Substack tab that just opened."; note.classList.add("ok"); }, 50);
 });
 
 /* ---------- Contact form ---------- */
