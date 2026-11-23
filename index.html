@@ -311,6 +311,65 @@ a{color:inherit}
   .rows a:hover{padding-left:4px}
 }
 
+.stag2{margin-top:8px!important;font-size:13px;opacity:.92}
+.allhero .tag2{margin-top:12px;font-size:15px;color:#4a5878}
+
+/* the pink bug you chase down the path */
+#bug{position:absolute;z-index:2;left:0;top:0;width:0;height:0;pointer-events:none;will-change:transform}
+.bugIn{position:absolute;left:-60px;top:-100px;width:120px;height:110px;transform-origin:60px 100px}
+.bugIn>svg{display:block;width:120px;height:110px;overflow:visible;transform-origin:60px 100px;animation:bugIdle 2.4s ease-in-out infinite}
+#bug.run .bugIn>svg{animation:bugRun .2s ease-in-out infinite alternate}
+.leg{transform-box:fill-box}
+.legL{transform-origin:100% 0}
+.legR{transform-origin:0 0}
+#bug.run .l1,#bug.run .r2,#bug.run .l3{animation:legA .2s ease-in-out infinite alternate}
+#bug.run .r1,#bug.run .l2,#bug.run .r3{animation:legA .2s ease-in-out infinite alternate-reverse}
+.bFront{opacity:0;transition:opacity .45s}
+.bBack{transition:opacity .45s}
+#bug.caught .bFront{opacity:1}
+#bug.caught .bBack{opacity:0}
+.bugSay{position:absolute;left:50%;bottom:calc(100% + 40px);width:max-content;transform:translateX(-50%) scale(.6);opacity:0;white-space:nowrap;padding:9px 18px 10px;border-radius:999px;background:#fff;border:2px solid #ff8fc4;box-shadow:0 12px 34px rgba(20,33,61,.28);font:400 26px/1 var(--display);color:var(--ink);transition:opacity .5s,transform .6s cubic-bezier(.2,.9,.3,1.4)}
+.bugSay::after{content:"";position:absolute;left:50%;top:100%;width:12px;height:12px;margin:-6px 0 0 -6px;background:#fff;border-right:2px solid #ff8fc4;border-bottom:2px solid #ff8fc4;transform:rotate(45deg)}
+#bug.caught .bugSay{opacity:1;transform:translateX(-50%) scale(1)}
+.hearts{position:absolute;left:60px;top:62px;width:0;height:0;opacity:0;transition:opacity .4s}
+#bug.caught .hearts{opacity:1}
+.hearts i{position:absolute;left:-9px;top:-8px;width:18px;height:16px;opacity:0}
+.hearts svg{display:block;width:100%;height:100%;fill:#ff5fa2;transform:rotate(calc(-1*var(--a)))}
+#bug.caught .hearts i{animation:heartOut 2.3s ease-out infinite;animation-delay:var(--d)}
+@keyframes heartOut{0%{transform:rotate(var(--a)) translateY(-14px) scale(.35);opacity:0}15%{opacity:1}100%{transform:rotate(var(--a)) translateY(-92px) scale(1.05);opacity:0}}
+@keyframes bugIdle{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-1px) scaleY(1.03)}}
+@keyframes bugRun{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-4px) rotate(3deg)}}
+@keyframes legA{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+@media (prefers-reduced-motion:reduce){
+  .bugIn>svg,#bug.run .bugIn>svg,#bug.run .leg{animation:none!important}
+  #bug.caught .hearts i{animation:none!important;opacity:1;transform:rotate(var(--a)) translateY(-64px) scale(.9)}
+  .bugSay,.bFront,.bBack{transition:none!important}
+}
+
+/* contact form */
+dialog.contact{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.35);overflow:auto}
+dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.cform{position:relative;padding:22px 24px 20px}
+.cform h2{font-size:36px;line-height:1.04;letter-spacing:-.01em;margin:6px 0 6px}
+.cintro{font-size:14.5px;color:#3a4a6c}
+.cfields{display:grid;gap:12px;margin-top:16px}
+.cform label{display:grid;gap:6px;font:500 11px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#3a4a6c}
+.cform input,.cform textarea{width:100%;font:400 15px/1.45 var(--body);letter-spacing:0;text-transform:none;color:var(--ink);padding:10px 12px;border-radius:10px;border:1px solid rgba(20,33,61,.28);background:#fbfaf7}
+.cform textarea{resize:vertical;min-height:110px}
+.cform input:focus,.cform textarea:focus{border-color:var(--ink)}
+.cform .btns{margin-top:2px}
+.cform .btn[disabled]{opacity:.6;cursor:wait}
+.cclose{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:#eef1f6;color:var(--ink);font:400 22px/1 var(--body);cursor:pointer}
+.cclose:hover{background:var(--amber)}
+.cstatus{margin-top:12px!important;font-size:14px;color:#3a4a6c;min-height:1.4em}
+.cstatus.ok{color:var(--moss);font-weight:500}
+.cstatus.err{color:#a1352a}
+.cform.sent .cfields{display:none}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.end .btns{justify-content:center}
+.end .btn.solid{background:var(--amber);border-color:var(--amber);color:var(--ink)}
+.end .btn.solid:hover{background:#fff;border-color:#fff}
+
 @media (max-height:500px) and (orientation:landscape){
   .bar{top:8px;height:40px}
   #chip{bottom:8px}
@@ -323,7 +382,7 @@ a{color:inherit}
 <header class="bar">
   <span class="mark">Mia</span>
   <nav id="barLinks" aria-label="Main"></nav>
-  <button id="modeBtn" class="mode" type="button">Skip the walk <span aria-hidden="true">→</span></button>
+  <button id="modeBtn" class="mode" type="button">Skip the chase <span aria-hidden="true">→</span></button>
 </header>
 
 <main id="trail" aria-label="The scenic route">
@@ -338,6 +397,39 @@ a{color:inherit}
       <div id="hGlow" aria-hidden="true"></div>
       <div class="sun" id="sunB" aria-hidden="true"></div>
       <canvas id="gl" aria-hidden="true"></canvas>
+      <div id="bug" aria-hidden="true"><div class="bugIn">
+        <div class="hearts"><i style="--a:18deg;--d:0.00s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:54deg;--d:0.23s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:90deg;--d:0.46s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:126deg;--d:0.69s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:162deg;--d:0.92s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:198deg;--d:1.15s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:234deg;--d:1.38s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:270deg;--d:1.61s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:306deg;--d:1.84s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:342deg;--d:2.07s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i></div>
+        <svg viewBox="0 0 120 110">
+          <ellipse cx="60" cy="101" rx="38" ry="7" fill="#14213d" fill-opacity=".2"/>
+          <g fill="none" stroke="#5b2a4a" stroke-width="4" stroke-linecap="round">
+            <path class="leg legL l1" d="M36 66L20 74"/><path class="leg legL l2" d="M32 80L15 92"/><path class="leg legL l3" d="M38 92L27 104"/>
+            <path class="leg legR r1" d="M84 66L100 74"/><path class="leg legR r2" d="M88 80L105 92"/><path class="leg legR r3" d="M82 92L93 104"/>
+          </g>
+          <g class="bBack">
+            <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M53 30Q46 12 35 13"/><path d="M67 30Q74 12 85 13"/></g>
+            <circle cx="35" cy="13" r="5" fill="#ff7eb6"/><circle cx="85" cy="13" r="5" fill="#ff7eb6"/>
+            <circle cx="60" cy="38" r="15" fill="#5b2a4a"/>
+            <ellipse cx="60" cy="68" rx="38" ry="32" fill="#ff8fc4"/>
+            <path d="M60 37V100" stroke="#e0579a" stroke-width="3"/>
+            <g fill="#e0579a"><circle cx="42" cy="58" r="6"/><circle cx="78" cy="58" r="6"/><circle cx="45" cy="83" r="5"/><circle cx="75" cy="83" r="5"/></g>
+            <ellipse cx="44" cy="50" rx="10" ry="5.5" fill="#fff" fill-opacity=".55" transform="rotate(-28 44 50)"/>
+          </g>
+          <g class="bFront">
+            <ellipse cx="60" cy="60" rx="40" ry="30" fill="#ff8fc4"/>
+            <g fill="#e0579a"><circle cx="30" cy="52" r="6"/><circle cx="90" cy="52" r="6"/><circle cx="40" cy="36" r="4.5"/><circle cx="80" cy="36" r="4.5"/></g>
+            <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M50 50Q40 26 28 24"/><path d="M70 50Q80 26 92 24"/></g>
+            <path d="M28 30C22 25 20 22 20 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(-4 -8)"/>
+            <path d="M92 30C86 25 84 22 84 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(4 -8)"/>
+            <circle cx="60" cy="72" r="25" fill="#5b2a4a"/>
+            <circle cx="50" cy="68" r="7" fill="#fff"/><circle cx="70" cy="68" r="7" fill="#fff"/>
+            <circle cx="51" cy="69.5" r="3.6" fill="#14213d"/><circle cx="71" cy="69.5" r="3.6" fill="#14213d"/>
+            <circle cx="52.6" cy="67.6" r="1.3" fill="#fff"/><circle cx="72.6" cy="67.6" r="1.3" fill="#fff"/>
+            <ellipse cx="42" cy="80" rx="5" ry="3.2" fill="#ff7eb6" fill-opacity=".85"/><ellipse cx="78" cy="80" rx="5" ry="3.2" fill="#ff7eb6" fill-opacity=".85"/>
+            <path d="M54 81Q60 87 66 81" fill="none" stroke="#ffd1e6" stroke-width="2.6" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <div class="bugSay">You caught the bug!</div>
+      </div></div>
       <div id="stops"></div>
       <div class="sun" id="sunF" aria-hidden="true"></div>
       <div id="lglow" aria-hidden="true"></div>
@@ -350,16 +442,37 @@ a{color:inherit}
 
 <main id="all" hidden aria-label="Everything"></main>
 
+<dialog id="contact" class="contact" aria-labelledby="cTitle">
+  <form class="cform" id="cform">
+    <button type="button" class="cclose" data-act="close" aria-label="Close">&times;</button>
+    <p class="eyebrow">Contact</p>
+    <h2 id="cTitle">Say hello</h2>
+    <p class="cintro">Send me a note and I'll get back to you.</p>
+    <div class="cfields">
+      <label>Name<input name="name" autocomplete="name" required maxlength="120"></label>
+      <label>Your email<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+      <label>Message<textarea name="message" rows="5" required maxlength="5000"></textarea></label>
+      <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="btns"><button class="btn solid" type="submit" id="cSend">Send message</button></div>
+    </div>
+    <p class="cstatus" id="cStatus" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
+
 <script src="vendor/three.min.js"></script>
 <script>
 /* ---------- Content: edit everything here ---------- */
 const SITE = {
   name: "Mia",
   photo: "",   /* add later: an image URL, or a data: URI. Leave empty to show the dashed placeholder circle. */
-  tagline: "Your tagline goes here. One short line about what you make.",
+  tagline: "I've recently caught a bug: the vibe-coding bug! I went from curious to obsessed practically overnight, and I can't stop building websites and web apps.",
+  /* shown on the trailhead sign only */
+  chase: "Chase the bug down the path to see what I've been working on, and maybe catch it yourself! Or skip the chase with the button in the top right.",
+  /* shown on the sign and the plain page */
+  updates: "New things are added all the time, so come back and visit for updates.",
   bio: [
-    "Placeholder bio, paragraph one. A few sentences about who you are, where you're from and what you care about.",
-    "Placeholder bio, paragraph two. A few sentences about what you're working on and what visitors will find here."
+    "Born and raised in Boston, I moved to LA to study Economics and NGOs & Social Change at USC. I'm fascinated by the intersection of economics, tech and culture.",
+    "Here you'll find the websites and web apps I've been building, along with the articles I've been writing on Substack and the content I've been making about my vibe-coding journey."
   ],
   route: [
     {label: "About",     text: "A short bio"},
@@ -377,14 +490,18 @@ const SITE = {
     {title: "Placeholder essay title two",   meta: "Substack", url: "#"},
     {title: "Placeholder essay title three", meta: "Substack", url: "#"}
   ],
+  /* Add more any time, e.g. {name: "Instagram", url: "https://instagram.com/you"}. They show on the sign, the Elsewhere ring and the plain page. */
   socials: [
-    {name: "Substack",  url: "#"},
-    {name: "LinkedIn",  url: "#"},
-    {name: "Instagram", url: "#"},
-    {name: "X",         url: "#"}
+    {name: "Substack", url: "#"},
+    {name: "TikTok",   url: "#"}
   ],
   closing: "Placeholder closing message. A sentence or two to end the walk and invite people to get in touch.",
-  email: "your@email.com"
+  /* The Contact Me form posts here (FormSubmit: free, no account). Messages arrive by email and the address is never shown on the page.
+     After the first message, FormSubmit emails a random alias; swap it in for the address to hide it from the page source too. */
+  contact: {
+    endpoint: "https://formsubmit.co/ajax/mia.c.maginn@gmail.com",
+    subject: "New message from your portfolio"
+  }
 };
 
 const NAMES = ["Start","About","Project one","Project two","Project three","Essays","Elsewhere","The end"];
@@ -487,6 +604,7 @@ function signHTML(){
     <p class="eyebrow">Trailhead · Start</p>
     <h1>Hi, I'm <em>${SITE.name}</em>.</h1>
     <p class="stag">${SITE.tagline}</p>
+    <p class="stag stag2">${SITE.chase} ${SITE.updates}</p>
     <div class="signGrid">
       <div class="mapBox">${map}<span class="mapCap">Trail map</span></div>
       <ul class="stops4">${SITE.route.map((r,k)=>`<li><i>${k+1}</i><span><b>${r.label}</b>${r.text}</span></li>`).join("")}</ul>
@@ -509,7 +627,7 @@ function cardHTML(i){
     <p class="hint">Scroll to start walking <span aria-hidden="true">↓</span></p>`;
   if(i===1) return `<div class="aboutTop">${photoHTML()}<div class="aboutHead">${eb(i,"About")}<h2>A little about me</h2></div></div>${SITE.bio.map(t=>`<p>${t}</p>`).join("")}`;
   if(i===5) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul>`;
-  return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p><p><strong>${SITE.email}</strong></p><div class="btns"><button class="btn solid" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
+  return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p><div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
 }
 
 /* ---------- Everything view ---------- */
@@ -528,7 +646,7 @@ function buildAll(){
   document.getElementById("all").innerHTML = `
   <section class="allhero">
     <div class="wrap">
-      <div><p class="eyebrow">Portfolio</p><h1>Hi, I'm <em>${SITE.name}</em>.</h1><p class="tag">${SITE.tagline}</p>${socialPills()}</div>
+      <div><p class="eyebrow">Portfolio</p><h1>Hi, I'm <em>${SITE.name}</em>.</h1><p class="tag">${SITE.tagline}</p><p class="tag tag2">${SITE.updates}</p>${socialPills()}</div>
       <div class="bio">${photoHTML()}${SITE.bio.map(t=>`<p>${t}</p>`).join("")}</div>
     </div>
     <svg class="hills" viewBox="0 0 1440 210" preserveAspectRatio="none" aria-hidden="true">
@@ -549,8 +667,8 @@ function buildAll(){
   <footer class="end">
     <div class="dot" aria-hidden="true"></div>
     <h2>End of the path.</h2>
-    <p>${SITE.closing}</p><p>${SITE.email}</p>
-    <button class="btn" type="button" data-act="trail">← Return to the scenic route</button>
+    <p>${SITE.closing}</p>
+    <div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="trail">← Return to the scenic route</button></div>
   </footer>`;
 }
 
@@ -808,14 +926,53 @@ function render(p){
     if(dd<bd){ bd=dd; best=i; }
   });
 
+  placeBug(camS);
+
   const label = `↓ Stop ${best+1} of ${N} · ${NAMES[best]}`;
   if(label!==lastChip){ chip.textContent = label; lastChip = label; }
   prog.style.width = (p*100).toFixed(1)+"%";
 }
 
+/* ---------- the bug: always a few steps ahead on the path, until you catch it at the end ---------- */
+const bugEl = $("#bug");
+const BUG_W = .95;                 /* world units across */
+let bugLastS = null;
+function placeBug(camS){
+  const END = (N-1)*GAP;
+  const near = smooth(END - 1.4*GAP, END - 1, camS);      /* closes the gap over the last stretch */
+  const lead = lerp(9.5, 4.4, near);
+  const bs = camS + lead;
+  const wig = .3*Math.sin(bs*.55)*(1-near);                /* scuttles side to side on the path */
+  V1.set(pathX(bs) + wig, .04, -bs);
+  const dist = camera.position.distanceTo(V1);
+  V1.project(camera);
+  if(V1.z > 1){ bugEl.style.opacity = "0"; return; }
+  let sx = (V1.x*.5+.5)*vw, sy = (-V1.y*.5+.5)*H;
+  const px = BUG_W * (H/2) / Math.tan(camera.fov*Math.PI/360) / dist;
+  const sc = clamp(px/120, .18, 1.5);
+  /* at the finish, keep the bug and its caption clear of the end card */
+  const endEl = stopEls[N-1];
+  if(near > 0 && endEl && +endEl.style.opacity > .02){
+    const r = endEl.getBoundingClientRect(), half = 130*sc + 14, top = 192*sc;
+    if(sy - top < r.bottom + 10 && sx + half > r.left && sx - half < r.right){
+      if(r.left - half >= half) sx = Math.min(sx, r.left - half);
+      else if(vw - r.right >= half*2) sx = Math.max(sx, r.right + half);
+      else sy = Math.min(H - 56, Math.max(sy, r.bottom + 10 + top));
+    }
+  }
+  const rot = 9*Math.cos(bs*.55)*(1-near);
+  bugEl.style.opacity = "1";
+  bugEl.style.transform = `translate3d(${sx.toFixed(1)}px,${sy.toFixed(1)}px,0)`;
+  bugEl.firstElementChild.style.transform = `scale(${sc.toFixed(3)}) rotate(${rot.toFixed(1)}deg)`;
+  const caught = camS > END - 2;
+  bugEl.classList.toggle("caught", caught);
+  bugEl.classList.toggle("run", !caught && bugLastS!==null && Math.abs(camS - bugLastS) > .02);
+  bugLastS = camS;
+}
+
 let curP = 0, running = false;
 const targetP = () => { const maxY = scrollerH - H; return maxY>0 ? clamp(window.scrollY/maxY,0,1) : 0; };
-function update(){ if(mode!=="trail" || !built) return; curP = targetP(); render(curP); }
+function update(){ if(mode!=="trail" || !built) return; curP = targetP(); render(curP); bugEl.classList.remove("run"); }
 function frame(){
   running = false;
   if(mode!=="trail") return;
@@ -823,6 +980,7 @@ function frame(){
   curP = Math.abs(d)<.0003 ? tp : curP + d*.16;
   render(curP);
   if(Math.abs(tp-curP)>.0003){ running = true; requestAnimationFrame(frame); }
+  else bugEl.classList.remove("run");
 }
 function onScroll(){ if(!running){ running = true; requestAnimationFrame(frame); } }
 
@@ -830,7 +988,7 @@ function onScroll(){ if(!running){ running = true; requestAnimationFrame(frame);
 /* ---------- Modes ---------- */
 function setBtn(){
   btn.hidden = noGL;
-  btn.innerHTML = mode==="trail" ? `Skip the walk <span aria-hidden="true">→</span>` : `<span aria-hidden="true">←</span> ${window.innerWidth<520 ? "Scenic route" : "Return to the scenic route"}`;
+  btn.innerHTML = mode==="trail" ? `Skip the chase <span aria-hidden="true">→</span>` : `<span aria-hidden="true">←</span> ${window.innerWidth<520 ? "Scenic route" : "Return to the scenic route"}`;
 }
 function glFail(){
   if(noGL && mode==="all") return;
@@ -863,6 +1021,7 @@ document.addEventListener("click", e=>{
   const nv = e.target.closest("[data-nav]");
   if(nv){
     const k = nv.dataset.nav;
+    if(k==="contact"){ openContact(); return; }
     if(mode==="trail") window.scrollTo({top: stopY(k==="about" ? 1 : N-1), behavior:scrollBehavior()});
     else if(k==="about") window.scrollTo({top:0, behavior:scrollBehavior()});
     else document.querySelector(".end").scrollIntoView({behavior:scrollBehavior()});
@@ -873,6 +1032,36 @@ document.addEventListener("click", e=>{
   if(a==="all") go("all");
   else if(a==="trail") go("trail");
   else if(a==="top") window.scrollTo({top:0,behavior:scrollBehavior()});
+  else if(a==="contact") openContact();
+  else if(a==="close") contactDlg.close();
+});
+
+/* ---------- Contact form ---------- */
+const contactDlg=$("#contact"), cform=$("#cform"), cStatus=$("#cStatus"), cSend=$("#cSend");
+function openContact(){
+  if(contactDlg.open) return;
+  cform.classList.remove("sent"); cStatus.textContent=""; cStatus.className="cstatus";
+  if(contactDlg.showModal) contactDlg.showModal(); else contactDlg.setAttribute("open","");
+  cform.elements.name.focus();
+}
+contactDlg.addEventListener("click", e=>{ if(e.target===contactDlg) contactDlg.close(); });
+cform.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const f = cform.elements;
+  const say = (t,c) => { cStatus.textContent=t; cStatus.className="cstatus"+(c?" "+c:""); };
+  if(f._honey.value){ cform.classList.add("sent"); say("Thanks! Your message is on its way.","ok"); return; }
+  cSend.disabled = true; say("Sending...");
+  try{
+    const r = await fetch(SITE.contact.endpoint, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body: JSON.stringify({name:f.name.value.trim(), email:f.email.value.trim(), message:f.message.value.trim(), _subject:SITE.contact.subject, _template:"box", _captcha:"false"})});
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok || String(j.success)!=="true") throw new Error(j.message||r.status);
+    cform.reset(); cform.classList.add("sent");
+    say("Thanks! Your message is on its way. I'll be in touch soon.","ok");
+  }catch(err){
+    console.warn("Contact form failed", err);
+    say("Sorry, that didn't send. Please try again in a moment.","err");
+  }finally{ cSend.disabled = false; }
 });
 window.addEventListener("hashchange", ()=> setMode(fromHash()));
 window.addEventListener("scroll", onScroll, {passive:true});

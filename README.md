@@ -1,6 +1,6 @@
 # The Scenic Route
 
-Mia's portfolio. Visitors walk a winding trail through a low-poly 3D landscape as they scroll, stopping at an about card, three projects, essays and social links. **Skip the walk** opens a plain page with everything on it.
+Mia's portfolio. Visitors walk a winding trail through a low-poly 3D landscape as they scroll, chasing a little pink bug past an about card, three projects, essays and social links. At the end you catch the bug and it radiates hearts. **Skip the chase** opens a plain page with everything on it.
 
 It's a static site with no build step.
 
@@ -19,14 +19,22 @@ It's a static site with no build step.
 
 All copy and links live in the `SITE` object near the top of the main script in `index.html`:
 
-- `name`, `photo` (image URL or path like `photo.jpg`; empty shows the dashed placeholder), `tagline`, `bio` (two paragraphs)
+- `name`, `photo` (image URL or path like `photo.jpg`; empty shows the dashed placeholder), `tagline`, `chase` (sign only), `updates`, `bio` (two paragraphs)
 - `route`: the four short lines on the trailhead sign
 - `projects`: name, type, host, blurb, url (three of them)
 - `essays`: title, meta, url (three of them)
-- `socials`: name, url
-- `closing` and `email`
+- `socials`: name, url (currently Substack and TikTok; add more entries any time)
+- `closing`
+- `contact.endpoint`: where the Contact Me form sends messages (see below)
 
 Copy rules: no em-dashes, keep it warm and natural.
+
+## Contact form
+
+**Contact Me** (top bar, end card and plain-page footer) opens a small form. It posts to [FormSubmit](https://formsubmit.co), a free service with no account, which emails each message to Mia. The address is never displayed on the page.
+
+- The very first message sent through the form triggers an activation email from FormSubmit. Click the link in it once; after that, messages are delivered.
+- That email also offers a random alias. Put it in place of the address in `contact.endpoint` (`https://formsubmit.co/ajax/<alias>`) so the address is not in the page source either.
 
 ## Running locally
 
@@ -51,6 +59,7 @@ Live at https://miamaginn.github.io (GitHub Pages, deployed from `main`). If you
 ## Behaviour notes
 
 - **No WebGL:** if the browser can't run WebGL, or the GPU context is lost, the site switches to the plain page and hides the scenic-route buttons.
-- **Reduced motion:** with `prefers-reduced-motion`, the walk stays but the bird flutter, card bobbing, orbiting links, hover lifts and long fade-ins are turned off, and jump links scroll instantly.
+- **The bug:** a projected sprite (like the stop cards), always a few steps ahead on the path. Over the last stretch you close the gap, it turns around and the caption appears. It steers clear of the end card on every screen size.
+- **Reduced motion:** with `prefers-reduced-motion`, the walk stays but the bird flutter, bug scuttling, floating hearts, card bobbing, orbiting links, hover lifts and long fade-ins are turned off, and jump links scroll instantly.
 - **Low-end devices** (4 or fewer CPU cores, or 3 GB or less memory) get fewer trees and a lower pixel ratio. Same look, lighter load.
 - **Keyboard and screen readers:** every stop stays in the accessibility tree; tabbing to a link in a stop walks the camera there.
