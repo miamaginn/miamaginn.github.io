@@ -46,7 +46,7 @@ Any static host works. No build command; publish directory is the repo root.
 - **Vercel:** import the repo, framework preset "Other", no build command.
 - **GitHub Pages:** Settings → Pages → deploy from `main`, root folder.
 
-Once there's a domain, replace every `SITE_URL` in the `<head>` of `index.html` with it (for example `https://mia.example`), so share previews pick up `og-image.png`.
+Live at https://miamaginn.github.io (GitHub Pages, deployed from `main`). If you move to a custom domain, replace `https://miamaginn.github.io` in the `<head>` of `index.html` so share previews keep working.
 
 ## Behaviour notes
 
