@@ -553,13 +553,14 @@ const SITE = {
   ],
   projects: [
     {name: "Rank LA",      type: "Vibe-coded site", host: "rankla.io",          blurb: "My very first project! A site where anyone in LA can rank their 100 favorite places in any category, no matter how specific, and add new categories of their own.", url: "https://rankla.io/"},
-    {name: "Binge",        type: "Web app",         host: "binge-eta.vercel.app", blurb: "Rank your favorite TV shows with your friends! See how your tastes compare, browse global rankings, and filter by platform, episode length, series type and more to find your next show.", url: "https://binge-eta.vercel.app/"},
+    {name: "Binge",        type: "Web app",         host: "binge-eta.vercel.app", blurb: "Rank your favorite TV shows with your friends! See how your tastes compare, browse global rankings, and filter by platform, episode length, series type and more to find your next show.", url: "https://binge-eta.vercel.app/", lizard: true},
     /* no public link: "demo" shows a slideshow in the window and a full-size viewer instead */
     {name: "Digital Scrapbook Travel Shelf", type: "Vibe-coded site", host: "travel-shelf · personal project", blurb: "A personal project so I can create a digital scrapbook for every trip I take this year.", url: "",
      demo: [
        {src: "images/travel-shelf.png",    alt: "The Travel Shelf: two rows of colorful book spines, one book per trip.", caption: "The shelf. Every trip gets its own book."},
        {src: "images/scrapbook-page.webp", alt: "An open scrapbook spread with a photo frame, sticky note, activity notes, a map of Portugal, stamps and stickers.", caption: "Inside a book. Photos, notes, stickers and maps you can drag anywhere."}
-     ]}
+     ]},
+    {name: "Chicken Hunt", type: "Vibe-coded site", host: "chickenhunt-coral.vercel.app", blurb: "A site I custom built for my fiancé's and my birthday party: a bar-hopping game called Chicken Hunt!", url: "https://chickenhunt-coral.vercel.app/"}
   ],
   essays: [
     {title: "Placeholder essay title one",   meta: "Substack", url: "#"},
@@ -584,8 +585,10 @@ const SITE = {
   }
 };
 
-const NAMES = ["Start","About","Project one","Project two","Project three","Essays","Elsewhere","The end"];
-const WIDTHS = [520,340,380,400,380,340,300,340];
+/* stop order: sign, about, every project, essays, elsewhere, the end. Add a project to SITE.projects and the walk grows a stop. */
+const NP = SITE.projects.length, P0 = 2, ESSAYS = P0 + NP, ELSE = ESSAYS + 1;
+const NAMES = ["Start","About", ...SITE.projects.map(p=>p.name), "Essays","Elsewhere","The end"];
+const WIDTHS = [520,340, ...SITE.projects.map(p=>p.lizard ? 400 : 380), 340,300,340];
 const N = NAMES.length;
 
 /* ---------- Shapes and colour ---------- */
@@ -685,10 +688,10 @@ const projLink = (p, pi) => p.demo
   ? `<button class="link linkBtn" type="button" data-act="demo" data-p="${pi}">Take a look →</button>`
   : `<a class="link" href="${p.url}" target="_blank" rel="noopener">Open project →</a>`;
 function winHTML(i,p){
-  const bird = i===2 ? `<div class="birdsWrap" aria-hidden="true"><div class="birdsIn">${BIRDS_SVG}</div></div>` : "";
-  const lizard = i===3 ? lizardHTML() : "";
-  return `<div class="withBirds${i===3 ? " withLizard" : ""}">${bird}${lizard}<div class="win"><div class="wbar"><i></i><i></i><i></i><b>${p.host}</b></div><div class="wscreen${p.demo ? " demoScreen" : ""}">${p.demo ? demoHTML(i-2) : winArt(i-2)}</div>
-    <div class="wbody">${eb(i,"Project · "+p.type)}<h2>${p.name}</h2><p>${p.blurb}</p>${projLink(p, i-2)}</div></div></div>`;
+  const bird = i===P0 ? `<div class="birdsWrap" aria-hidden="true"><div class="birdsIn">${BIRDS_SVG}</div></div>` : "";
+  const lizard = p.lizard ? lizardHTML() : "";
+  return `<div class="withBirds${p.lizard ? " withLizard" : ""}">${bird}${lizard}<div class="win"><div class="wbar"><i></i><i></i><i></i><b>${p.host}</b></div><div class="wscreen${p.demo ? " demoScreen" : ""}">${p.demo ? demoHTML(i-P0) : winArt(i-P0)}</div>
+    <div class="wbody">${eb(i,"Project · "+p.type)}<h2>${p.name}</h2><p>${p.blurb}</p>${projLink(p, i-P0)}</div></div></div>`;
 }
 function signHTML(){
   const pins=[[30,158,"You are here"],[96,124,"1 About"],[150,100,"2 Projects"],[206,70,"3 Essays"],[262,36,"4 Elsewhere"]];
@@ -726,7 +729,7 @@ function signHTML(){
 
 function elsewhereHTML(){
   const n = SITE.socials.length;
-  return `<div class="else"><div class="head">${eb(6,"Elsewhere")}<h2>Find me elsewhere</h2></div>
+  return `<div class="else"><div class="head">${eb(ELSE,"Elsewhere")}<h2>Find me elsewhere</h2></div>
     <div class="orbitbox"><svg class="ringsvg" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="74" pathLength="1"/></svg>
     <div class="orbit">${SITE.socials.map((s,k)=>`<div class="sl" style="--a:${(k*360/n).toFixed(1)}deg"><div class="un"><div class="sp"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></div></div></div>`).join("")}</div></div></div>`;
 }
@@ -736,7 +739,7 @@ function cardHTML(i){
     <div class="find"><span class="eyebrow">Find me</span>${socialPills()}</div>
     <p class="hint">Scroll to start walking <span aria-hidden="true">↓</span></p>`;
   if(i===1) return `<div class="aboutTop">${photoHTML()}<div class="aboutHead">${eb(i,"About")}<h2>A little about me</h2></div></div>${SITE.bio.map(t=>`<p>${t}</p>`).join("")}`;
-  if(i===5) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul>`;
+  if(i===ESSAYS) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul>`;
   return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p><div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
 }
 
@@ -916,11 +919,11 @@ function layout(){
   skies.forEach((el,i)=>{ el.style.background = `linear-gradient(${PALS[i].top},${PALS[i].bot})`; });
 
   const narrow = vw < 760;
-  stopMeta = Array.from({length:N},(_,i)=>({d0:i===0?6.5:D0, s:i*GAP+(i===0?6.5:D0), u:Math.min(U,(vw-24)/WIDTHS[i]), side:narrow?0:(i%2?1:-1), off:[3.9,5.2,6.5,6.5,6.5,6.5,6.5,6.5][i], ay:i===0?0:2.5, bottom:i===0}));
+  stopMeta = Array.from({length:N},(_,i)=>({d0:i===0?6.5:D0, s:i*GAP+(i===0?6.5:D0), u:Math.min(U,(vw-24)/WIDTHS[i]), side:narrow?0:(i%2?1:-1), off:i===0?3.9:i===1?5.2:6.5, ay:i===0?0:2.5, bottom:i===0}));
   stopsEl.innerHTML = stopMeta.map((m,i)=>{
     let inner;
-    if(i>=2 && i<=4) inner = winHTML(i, SITE.projects[i-2]);
-    else if(i===6) inner = elsewhereHTML();
+    if(i>=P0 && i<ESSAYS) inner = winHTML(i, SITE.projects[i-P0]);
+    else if(i===ELSE) inner = elsewhereHTML();
     else if(i===0) inner = signHTML();
     else inner = `<article class="card">${cardHTML(i)}</article>`;
     return `<section class="stop" id="stop-${i}" data-i="${i}" aria-label="Stop ${i+1} of ${N}: ${NAMES[i]}"><div class="stopIn"><div class="floaty" style="${i===0?"animation:none":`animation-delay:-${(i*1.3).toFixed(1)}s`}">${inner}</div></div></section>`;
@@ -953,7 +956,7 @@ function render(p){
   const lx = vw/2, ly = Math.round(H*.86);
   const maxR = Math.hypot(Math.max(lx,vw-lx), Math.max(ly,H-ly)) + 24;
   const g = GAP;
-  const Tt = [0, smooth(.45*g,.85*g,camS), smooth(1.45*g,1.85*g,camS), smooth(4.45*g,4.85*g,camS), smooth(5.45*g,5.85*g,camS)];
+  const Tt = [0, smooth(.45*g,.85*g,camS), smooth(1.45*g,1.85*g,camS), smooth((ESSAYS-.55)*g,(ESSAYS-.15)*g,camS), smooth((ESSAYS+.45)*g,(ESSAYS+.85)*g,camS)];
   let pal = PALS[0], ga = GLOW_A[0];
   for(let i=1;i<5;i++){
     skies[i].style.clipPath = `circle(${(Tt[i]*maxR).toFixed(1)}px at ${lx}px ${ly}px)`;
