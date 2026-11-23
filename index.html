@@ -404,6 +404,10 @@ dialog.demoDlg::backdrop{background:rgba(20,33,61,.55);-webkit-backdrop-filter:b
 .demoNav .btn{width:44px;padding:0;font-size:16px}
 @media (prefers-reduced-motion:reduce){ .demo img{transition:none} .demo:hover img.on{transform:none} dialog.demoDlg[open]{animation:none} }
 
+.moreLink{margin-top:18px}
+.list a{align-items:baseline}
+.list a span{flex:none}
+
 /* contact form */
 dialog.contact{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.35);overflow:auto}
 dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -567,14 +571,15 @@ const SITE = {
        {src: "images/lifely-dashboard.png", fit: "contain", alt: "The Lifely dashboard: pastel tiles for calendar, to-do list, wedding planning, chores, household projects, upcoming travel, self care, shopping list and Christmas presents.", caption: "The dashboard. Everything from chores to upcoming trips at a glance."}
      ]}
   ],
+  /* the "more" link under the essays */
+  substack: {name: "Mi Thinks", url: "https://substack.com/@mithinks"},
   essays: [
-    {title: "Placeholder essay title one",   meta: "Substack", url: "#"},
-    {title: "Placeholder essay title two",   meta: "Substack", url: "#"},
-    {title: "Placeholder essay title three", meta: "Substack", url: "#"}
+    {title: "The Inextricable Link Between Thursday's Market Sell-Off and Dior's Christmas Campaign", meta: "Nov 2026", url: "https://mithinks.substack.com/p/the-inextricable-link-between-thursdays"},
+    {title: "Tipping the Scales: Weight-Based Discrimination and the Rise of Tradwives",               meta: "Aug 2026", url: "https://mithinks.substack.com/p/tipping-the-scales-weight-based-discrimination"}
   ],
   /* Add more any time, e.g. {name: "Instagram", url: "https://instagram.com/you"}. They show on the sign, the Elsewhere ring and the plain page. */
   socials: [
-    {name: "Substack", url: "#"},
+    {name: "Substack", url: "https://substack.com/@mithinks"},
     {name: "TikTok",   url: "#"}
   ],
   /* the lizard at project two holds this sign */
@@ -744,7 +749,7 @@ function cardHTML(i){
     <div class="find"><span class="eyebrow">Find me</span>${socialPills()}</div>
     <p class="hint">Scroll to start walking <span aria-hidden="true">↓</span></p>`;
   if(i===1) return `<div class="aboutTop">${photoHTML()}<div class="aboutHead">${eb(i,"About")}<h2>A little about me</h2></div></div>${SITE.bio.map(t=>`<p>${t}</p>`).join("")}`;
-  if(i===ESSAYS) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul>`;
+  if(i===ESSAYS) return `${eb(i,"Essays")}<h2>Essays</h2><ul class="list">${SITE.essays.map((e,k)=>`<li style="--k:${k}"><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta}</span></a></li>`).join("")}</ul><a class="link" href="${SITE.substack.url}" target="_blank" rel="noopener">More on ${SITE.substack.name} →</a>`;
   return `${eb(i,"The end")}<h2>You made it to the end.</h2><p>${SITE.closing}</p><div class="btns"><button class="btn solid" type="button" data-act="contact">Contact me</button><button class="btn" type="button" data-act="top">Back to the start</button><button class="btn" type="button" data-act="all">See everything at once</button></div>`;
 }
 
@@ -779,8 +784,8 @@ function buildAll(){
       <article class="pcard">${p.demo ? `<div class="thumb demoThumb">${demoHTML(i, `<span class="demoType">${p.type}</span>`)}</div>` : thumb(i,p.type)}
       <div class="pbody"><h3>${p.name}</h3><p>${p.blurb}</p>${projLink(p, i)}</div></article>`).join("")}
     </div></section>
-  <section class="wrap sec"><h2 class="sh">Essays <small>On Substack</small></h2>
-    <ul class="rows">${SITE.essays.map(e=>`<li><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta} →</span></a></li>`).join("")}</ul></section>
+  <section class="wrap sec"><h2 class="sh">Essays <small>${SITE.substack.name} on Substack</small></h2>
+    <ul class="rows">${SITE.essays.map(e=>`<li><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta} →</span></a></li>`).join("")}</ul><a class="link moreLink" href="${SITE.substack.url}" target="_blank" rel="noopener">More on ${SITE.substack.name} →</a></section>
   <section class="wrap sec"><h2 class="sh">Elsewhere</h2>${socialPills()}</section>
   <footer class="end">
     <div class="dot" aria-hidden="true"></div>
