@@ -384,6 +384,7 @@ dialog.wip::backdrop{background:rgba(20,33,61,.28);-webkit-backdrop-filter:blur(
 .demo{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:#efe7d8;cursor:zoom-in;overflow:hidden}
 .demo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;opacity:0;transition:opacity .9s}
 .demo img.on{opacity:1}
+.demo img.fitAll{object-fit:contain;object-position:50% 50%;background:#fff;padding:10px}
 .demo:hover img.on{transform:scale(1.02);transition:opacity .9s,transform .6s}
 .demoTag{position:absolute;right:10px;top:10px;padding:5px 9px;border-radius:999px;background:rgba(20,33,61,.82);color:#fff;font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
 .demoType{position:absolute;left:14px;top:14px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.88);font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
@@ -560,7 +561,11 @@ const SITE = {
        {src: "images/travel-shelf.png",    alt: "The Travel Shelf: two rows of colorful book spines, one book per trip.", caption: "The shelf. Every trip gets its own book."},
        {src: "images/scrapbook-page.webp", alt: "An open scrapbook spread with a photo frame, sticky note, activity notes, a map of Portugal, stamps and stickers.", caption: "Inside a book. Photos, notes, stickers and maps you can drag anywhere."}
      ]},
-    {name: "Chicken Hunt", type: "Vibe-coded site", host: "chickenhunt-coral.vercel.app", blurb: "A site I custom built for my fiancé's and my birthday party: a bar-hopping game called Chicken Hunt!", url: "https://chickenhunt-coral.vercel.app/"}
+    {name: "Chicken Hunt", type: "Vibe-coded site", host: "chickenhunt-coral.vercel.app", blurb: "A site I custom built for my fiancé's and my birthday party: a bar-hopping game called Chicken Hunt!", url: "https://chickenhunt-coral.vercel.app/"},
+    {name: "Lifely", type: "Web app", host: "lifely · personal project", blurb: "A personal life-admin dashboard connected to Instinct, an AI agent that updates me daily on my schedule, to-do items, chores and any upcoming travel.", url: "",
+     demo: [
+       {src: "images/lifely-dashboard.png", fit: "contain", alt: "The Lifely dashboard: pastel tiles for calendar, to-do list, wedding planning, chores, household projects, upcoming travel, self care, shopping list and Christmas presents.", caption: "The dashboard. Everything from chores to upcoming trips at a glance."}
+     ]}
   ],
   essays: [
     {title: "Placeholder essay title one",   meta: "Substack", url: "#"},
@@ -681,9 +686,9 @@ const lizardHTML = () => `<div class="lzWrap"><p class="lzSign">${SITE.lizardSig
 /* a crossfading slideshow; clicking it opens the full-size viewer */
 const demoHTML = (pi, extra="") => { const p = SITE.projects[pi];
   return `<button class="demo" type="button" data-act="demo" data-p="${pi}" aria-label="Open the ${p.name} demo">
-    ${p.demo.map((d,k)=>`<img src="${d.src}" alt="" class="${k?"":"on"}" decoding="async">`).join("")}
+    ${p.demo.map((d,k)=>`<img src="${d.src}" alt="" class="${k?"":"on"}${d.fit==="contain"?" fitAll":""}" decoding="async">`).join("")}
     <span class="demoTag">Demo · view larger</span>
-    <span class="demoDots" aria-hidden="true">${p.demo.map((d,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</span>${extra}</button>`; };
+    <span class="demoDots" aria-hidden="true"${p.demo.length<2?" hidden":""}>${p.demo.map((d,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</span>${extra}</button>`; };
 const projLink = (p, pi) => p.demo
   ? `<button class="link linkBtn" type="button" data-act="demo" data-p="${pi}">Take a look →</button>`
   : `<a class="link" href="${p.url}" target="_blank" rel="noopener">Open project →</a>`;
@@ -1172,6 +1177,7 @@ function showDemo(k){
   $("#demoImg").src = d.src; $("#demoImg").alt = d.alt;
   $("#demoCap").textContent = d.caption || "";
   $("#demoCount").textContent = `${demoAt+1} / ${list.length}`;
+  $("#demoDlg .demoNav").hidden = list.length < 2;
 }
 function openDemo(pi){
   if(demoDlg.open) return;
