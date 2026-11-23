@@ -346,6 +346,39 @@ a{color:inherit}
   .bugSay,.bFront,.bBack{transition:none!important}
 }
 
+/* the lizard at Binge: climbs up the side of the window and holds up a sign */
+.withLizard{padding-top:122px}
+.lzWrap{position:absolute;z-index:3;left:10px;top:92px;width:70px;height:150px;opacity:0;transform:translateY(300px);transition:transform 1.5s cubic-bezier(.25,.8,.3,1),opacity .35s;pointer-events:none}
+.stop.on .lzWrap{opacity:1;transform:none}
+.lzSvg{display:block;width:70px;height:150px;overflow:visible;filter:drop-shadow(0 6px 8px rgba(20,33,61,.28))}
+.lzLeg{transform-box:fill-box;transform-origin:50% 50%}
+.stop.on .lzA{animation:lzStep .16s ease-in-out 9 alternate}
+.stop.on .lzB{animation:lzStep .16s ease-in-out 9 alternate-reverse}
+.lzSign{position:absolute;left:-14px;bottom:calc(100% - 2px);width:208px;margin:0;padding:10px 13px 11px;border-radius:10px;background:#f3e4c0;border:3px solid #5e3a1c;box-shadow:0 3px 0 #5e3a1c,0 14px 30px rgba(20,33,61,.3);font:400 12.5px/1.4 var(--body);color:#4a2a10;transform:scale(0);transform-origin:30% 100%;transition:transform .45s cubic-bezier(.2,.9,.3,1.4) 1.35s;pointer-events:auto}
+.lzSign b{font-weight:600;color:#3a1f08}
+.stop.on .lzSign{transform:scale(1)}
+@keyframes lzStep{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+
+/* works-in-progress popup */
+dialog.wip{width:min(420px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:18px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.4);overflow:auto;text-align:center}
+dialog.wip[open]{animation:wipPop .6s cubic-bezier(.2,.9,.3,1.25)}
+dialog.wip::backdrop{background:rgba(20,33,61,.28);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.wipArt svg{display:block;width:100%;height:auto}
+.wipBody{padding:16px 24px 24px}
+.wip h2{font-size:40px;line-height:1;letter-spacing:-.01em;margin:2px 0 6px}
+.wip p{font-size:16px;color:#3a4a6c}
+.wip .btns{justify-content:center;margin-top:16px}
+.wip .cclose{background:rgba(255,255,255,.85)}
+.wipHook{transform-box:view-box;transform-origin:262px 44px;animation:wipSwing 3.2s ease-in-out infinite}
+.wipSun{transform-box:fill-box;transform-origin:center;animation:wipSpin 24s linear infinite}
+@keyframes wipPop{from{opacity:0;transform:translateY(24px) scale(.86)}to{opacity:1;transform:none}}
+@keyframes wipSwing{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes wipSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  .lzWrap,.lzSign{transition:none!important}
+  .lzLeg,.wipHook,.wipSun,dialog.wip[open]{animation:none!important}
+}
+
 /* contact form */
 dialog.contact{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.35);overflow:auto}
 dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -442,6 +475,8 @@ dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:b
 
 <main id="all" hidden aria-label="Everything"></main>
 
+<dialog id="wip" class="wip" aria-labelledby="wipTitle"></dialog>
+
 <dialog id="contact" class="contact" aria-labelledby="cTitle">
   <form class="cform" id="cform">
     <button type="button" class="cclose" data-act="close" aria-label="Close">&times;</button>
@@ -495,6 +530,10 @@ const SITE = {
     {name: "Substack", url: "#"},
     {name: "TikTok",   url: "#"}
   ],
+  /* the lizard at project two holds this sign */
+  lizardSign: "<b>Save Binge as an app on your phone!</b> Visit the site and hit <b>Share</b>, then <b>Add to Home Screen</b>.",
+  /* the popup after you catch the bug */
+  wip: {title: "Works In Progress", text: "a lot more still to come!", button: "Can't wait!"},
   closing: "Placeholder closing message. A sentence or two to end the walk and invite people to get in touch.",
   /* The Contact Me form posts here (FormSubmit: free, no account). Messages arrive by email and the address is never shown on the page.
      After the first message, FormSubmit emails a random alias; swap it in for the address to hide it from the page source too. */
@@ -505,7 +544,7 @@ const SITE = {
 };
 
 const NAMES = ["Start","About","Project one","Project two","Project three","Essays","Elsewhere","The end"];
-const WIDTHS = [520,340,380,380,380,340,300,340];
+const WIDTHS = [520,340,380,400,380,340,300,340];
 const N = NAMES.length;
 
 /* ---------- Shapes and colour ---------- */
@@ -575,9 +614,30 @@ function winArt(i){
   const g = WIN_SKIES[i % WIN_SKIES.length], s = i*1.7;
   return `<svg viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${g[0]}"/><stop offset="1" stop-color="${g[1]}"/></linearGradient></defs><rect width="400" height="150" fill="url(#wg${i})"/><circle cx="${300-i*50}" cy="50" r="18" fill="#fff" fill-opacity=".6"/><path d="${ridgePath(400,150,s+.3,.62,.22,.7)}" fill="#8fa5cf" fill-opacity=".85"/><path d="${ridgePath(400,150,s+1.4,.72,.2,.55)}" fill="#3f8a6d" fill-opacity=".9"/><path d="${ridgePath(400,150,s+2.6,.84,.14,.45)}" fill="#1d5645"/></svg>`;
 }
+const LIZARD_SVG = `<svg class="lzSvg" viewBox="0 0 70 150" aria-hidden="true">
+  <rect x="33" y="0" width="4" height="60" rx="2" fill="#8a5a30"/>
+  <path d="M35 104Q29 126 41 137Q51 146 44 150" fill="none" stroke="#4f9a3a" stroke-width="7" stroke-linecap="round"/>
+  <g fill="none" stroke="#5aab3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path class="lzLeg lzA" d="M28 96L14 104L11 114"/><path class="lzLeg lzB" d="M42 96L56 104L59 114"/>
+    <path class="lzLeg lzB" d="M27 58L19 49L32 41"/><path class="lzLeg lzA" d="M43 58L51 49L38 43"/>
+  </g>
+  <g fill="#4f9a3a"><circle cx="11" cy="115" r="2.6"/><circle cx="59" cy="115" r="2.6"/></g>
+  <ellipse cx="35" cy="80" rx="12.5" ry="28" fill="#6cc24a"/>
+  <path d="M35 58V102" stroke="#9be07c" stroke-width="5" stroke-linecap="round" stroke-opacity=".7"/>
+  <g fill="#4f9a3a"><circle cx="28" cy="70" r="2.2"/><circle cx="42" cy="76" r="2.2"/><circle cx="29" cy="88" r="2"/><circle cx="41" cy="94" r="1.8"/></g>
+  <circle cx="32.5" cy="41" r="3.6" fill="#6cc24a"/><circle cx="37.5" cy="43" r="3.6" fill="#6cc24a"/>
+  <ellipse cx="35" cy="50" rx="12" ry="11" fill="#6cc24a"/>
+  <circle cx="27" cy="45" r="5" fill="#fff"/><circle cx="43" cy="45" r="5" fill="#fff"/>
+  <circle cx="27.5" cy="46" r="2.5" fill="#14213d"/><circle cx="43.5" cy="46" r="2.5" fill="#14213d"/>
+  <circle cx="28.4" cy="45" r=".9" fill="#fff"/><circle cx="44.4" cy="45" r=".9" fill="#fff"/>
+  <ellipse cx="26" cy="54" rx="3" ry="1.8" fill="#ff8fc4" fill-opacity=".8"/><ellipse cx="44" cy="54" rx="3" ry="1.8" fill="#ff8fc4" fill-opacity=".8"/>
+  <path d="M31 55Q35 58.5 39 55" fill="none" stroke="#2f6f2a" stroke-width="1.6" stroke-linecap="round"/>
+</svg>`;
+const lizardHTML = () => `<div class="lzWrap"><p class="lzSign">${SITE.lizardSign}</p>${LIZARD_SVG}</div>`;
 function winHTML(i,p){
   const bird = i===2 ? `<div class="birdsWrap" aria-hidden="true"><div class="birdsIn">${BIRDS_SVG}</div></div>` : "";
-  return `<div class="withBirds">${bird}<div class="win"><div class="wbar"><i></i><i></i><i></i><b>${p.host}</b></div><div class="wscreen">${winArt(i-2)}</div>
+  const lizard = i===3 ? lizardHTML() : "";
+  return `<div class="withBirds${i===3 ? " withLizard" : ""}">${bird}${lizard}<div class="win"><div class="wbar"><i></i><i></i><i></i><b>${p.host}</b></div><div class="wscreen">${winArt(i-2)}</div>
     <div class="wbody">${eb(i,"Project · "+p.type)}<h2>${p.name}</h2><p>${p.blurb}</p><a class="link" href="${p.url}" target="_blank" rel="noopener">Open project →</a></div></div></div>`;
 }
 function signHTML(){
@@ -917,6 +977,12 @@ function render(p){
         /* scale is about the centre, so the top edge sits at sy - hN*(1+sc)/2 */
         sy = Math.max(sy, barB + 8 + m.hN*(1+sc)/2);
       }
+      /* nothing rises under the top bar (scale is about the centre) */
+      if(!m.bottom && m.hN){
+        const room = H - barB - 52;
+        if(m.hN*sc > room) sc = room/m.hN;      /* short screens: shrink tall stops to fit */
+        sy = Math.max(sy, barB + 8 + m.hN*sc/2);
+      }
       /* keep cards inside the screen on phones and mid-size windows */
       const half = WIDTHS[i]*sc/2 + 12;
       if(vw > half*2) sx = clamp(sx, half, vw-half);
@@ -966,6 +1032,7 @@ function placeBug(camS){
   bugEl.firstElementChild.style.transform = `scale(${sc.toFixed(3)}) rotate(${rot.toFixed(1)}deg)`;
   const caught = camS > END - 2;
   bugEl.classList.toggle("caught", caught);
+  maybeShowWip(caught);
   bugEl.classList.toggle("run", !caught && bugLastS!==null && Math.abs(camS - bugLastS) > .02);
   bugLastS = camS;
 }
@@ -1034,9 +1101,79 @@ document.addEventListener("click", e=>{
   else if(a==="top") window.scrollTo({top:0,behavior:scrollBehavior()});
   else if(a==="contact") openContact();
   else if(a==="close") contactDlg.close();
+  else if(a==="wipclose") wipDlg.close();
 });
 
 /* ---------- Contact form ---------- */
+/* ---------- Works in progress popup (once per visit, after you catch the bug) ---------- */
+const wipDlg = $("#wip");
+function wipArt(){
+  const cone = x => `<g transform="translate(${x} 0)"><path d="M0 172L9 140H15L24 172Z" fill="#f2793d"/><path d="M4 158H20L18 151H6Z" fill="#fff"/><rect x="-4" y="170" width="32" height="6" rx="2" fill="#d9573c"/></g>`;
+  return `<svg viewBox="0 0 400 210" aria-hidden="true">
+    <defs>
+      <linearGradient id="wipSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ec9ee"/><stop offset="1" stop-color="#fde8c9"/></linearGradient>
+      <pattern id="wipStripe" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="18" fill="#f2a03d"/><rect x="9" width="9" height="18" fill="#fff"/></pattern>
+    </defs>
+    <rect width="400" height="210" fill="url(#wipSky)"/>
+    <g class="wipSun"><circle cx="338" cy="46" r="18" fill="#ffe2a0"/><g stroke="#ffe2a0" stroke-width="3" stroke-linecap="round"><path d="M338 18V22M338 70V74M310 46H314M362 46H366M318 26L321 29M355 63L358 66M358 26L355 29M321 63L318 66"/></g></g>
+    <g fill="#fff" fill-opacity=".85"><ellipse cx="150" cy="40" rx="26" ry="9"/><ellipse cx="168" cy="34" rx="16" ry="9"/><ellipse cx="300" cy="96" rx="20" ry="6"/></g>
+    <path d="${ridgePath(400,210,1.1,.7,.14,.5)}" fill="#9fc5a8"/>
+    <path d="${ridgePath(400,210,2.7,.8,.1,.45)}" fill="#7fb069"/>
+    <ellipse cx="270" cy="178" rx="110" ry="16" fill="#d9b27c"/>
+    <path d="M318 176Q332 160 350 176Z" fill="#c49a62"/>
+    <g>
+      <rect x="236" y="104" width="96" height="72" fill="#f3e4c0" stroke="#a8875a" stroke-width="2"/>
+      <g fill="#8ec9ee" stroke="#a8875a" stroke-width="1.5"><rect x="248" y="116" width="18" height="16"/><rect x="276" y="116" width="18" height="16"/><rect x="304" y="116" width="18" height="16"/><rect x="248" y="144" width="18" height="16"/><rect x="304" y="144" width="18" height="16"/></g>
+      <rect x="277" y="146" width="16" height="30" fill="#c47a3c"/>
+      <g fill="#d9573c" stroke="#a8875a" stroke-width="1"><rect x="236" y="94" width="20" height="10"/><rect x="256" y="94" width="20" height="10"/><rect x="276" y="94" width="20" height="10"/><rect x="246" y="84" width="20" height="10"/></g>
+      <g stroke="#14213d" stroke-width="2" stroke-opacity=".55"><path d="M228 80V176M340 96V176M228 104H240M228 140H236M332 140H340M332 104H340"/></g>
+    </g>
+    <g>
+      <rect x="62" y="40" width="16" height="136" fill="none" stroke="#f2a03d" stroke-width="3.5"/>
+      <path d="M62 40L78 58L62 76L78 94L62 112L78 130L62 148L78 166" fill="none" stroke="#f2a03d" stroke-width="2.5"/>
+      <rect x="30" y="34" width="256" height="10" fill="none" stroke="#f2a03d" stroke-width="3"/>
+      <path d="M30 44L42 34L54 44L66 34L78 44L90 34L102 44L114 34L126 44L138 34L150 44L162 34L174 44L186 34L198 44L210 34L222 44L234 34L246 44L258 34L270 44L282 34" fill="none" stroke="#f2a03d" stroke-width="2"/>
+      <path d="M70 34L70 14L36 34M70 14L240 34" fill="none" stroke="#14213d" stroke-width="1.6" stroke-opacity=".6"/>
+      <rect x="30" y="44" width="22" height="16" rx="2" fill="#5b6a8c"/>
+      <rect x="78" y="44" width="24" height="18" rx="3" fill="#f2a03d"/><rect x="84" y="48" width="12" height="8" rx="1.5" fill="#cfe6f1"/>
+      <rect x="54" y="172" width="32" height="6" fill="#5b6a8c"/>
+      <g class="wipHook">
+        <path d="M262 44V84" stroke="#14213d" stroke-width="1.6"/>
+        <path d="M258 84H266L262 92Z" fill="#14213d"/>
+        <path d="M262 92L240 102M262 92L284 102" stroke="#14213d" stroke-width="1.3"/>
+        <rect x="232" y="102" width="60" height="9" rx="1.5" fill="#d9573c" stroke="#a8875a" stroke-width="1"/>
+      </g>
+    </g>
+    <g>
+      <rect x="118" y="150" width="6" height="26" fill="#5b6a8c"/><rect x="206" y="150" width="6" height="26" fill="#5b6a8c"/>
+      <rect x="108" y="144" width="114" height="16" rx="2" fill="url(#wipStripe)" stroke="#14213d" stroke-width="1.2"/>
+      <circle cx="115" cy="140" r="4" fill="#ffd23f"/><circle cx="215" cy="140" r="4" fill="#ffd23f"/>
+    </g>
+    ${cone(80)}${cone(222)}
+    <g transform="translate(170 166)"><path d="M0 12A14 12 0 0 1 28 12Z" fill="#ffd23f"/><rect x="-3" y="11" width="34" height="4" rx="2" fill="#e8b81a"/><rect x="12" y="1" width="4" height="10" rx="2" fill="#e8b81a"/></g>
+  </svg>`;
+}
+function buildWip(){
+  wipDlg.innerHTML = `<button type="button" class="cclose" data-act="wipclose" aria-label="Close">&times;</button>
+    <div class="wipArt">${wipArt()}</div>
+    <div class="wipBody"><h2 id="wipTitle">${SITE.wip.title}</h2><p>${SITE.wip.text}</p>
+    <div class="btns"><button class="btn solid" type="button" data-act="wipclose">${SITE.wip.button}</button></div></div>`;
+}
+let wipShown = false, wipTimer = 0;
+function maybeShowWip(caught){
+  if(!caught){ clearTimeout(wipTimer); wipTimer = 0; return; }
+  if(wipShown || wipTimer) return;
+  wipTimer = setTimeout(()=>{
+    wipTimer = 0;
+    if(mode!=="trail" || !bugEl.classList.contains("caught") || contactDlg.open || wipDlg.open) return;
+    if(!wipDlg.firstChild) buildWip();
+    wipShown = true;
+    if(wipDlg.showModal) wipDlg.showModal(); else wipDlg.setAttribute("open","");
+    const b = wipDlg.querySelector(".btn"); if(b) b.focus();
+  }, 1700);
+}
+wipDlg.addEventListener("click", e=>{ if(e.target===wipDlg) wipDlg.close(); });
+
 const contactDlg=$("#contact"), cform=$("#cform"), cStatus=$("#cStatus"), cSend=$("#cSend");
 function openContact(){
   if(contactDlg.open) return;
