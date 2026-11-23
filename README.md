@@ -21,7 +21,8 @@ All copy and links live in the `SITE` object near the top of the main script in 
 
 - `name`, `photo` (image URL or path like `photo.jpg`; empty shows the dashed placeholder), `tagline`, `chase` (sign only), `updates`, `bio` (two paragraphs)
 - `route`: the four short lines on the trailhead sign
-- `projects`: name, type, host, blurb, url. Add as many as you like: each one becomes its own stop on the walk (the sky and stop numbers adjust). Optional extras: `demo` (a list of screenshots, shown as a slideshow instead of linking out) and `lizard: true` (the lizard with the Add to Home Screen sign)
+- `projects`: name, type, host, blurb, url. Add as many as you like: each one becomes its own stop on the walk (the sky and stop numbers adjust). **Open project** shows a project page in a window. Optional extras: `tools` (shown as "Tools used"), `shots` (screenshots: a slideshow in the window and on the project page), `url` (adds a **Visit site** button; leave it empty for private projects), `details` (a longer paragraph) and `lizard: true` (the lizard with the Add to Home Screen sign)
+- `wip`: the Works In Progress construction stop near the end of the walk
 - `essays`: title, meta, url (three of them)
 - `socials`: name, url (currently Substack and TikTok; add more entries any time)
 - `closing`
