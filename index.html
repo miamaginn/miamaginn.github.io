@@ -1407,12 +1407,14 @@ cform.addEventListener("submit", async e=>{
     const r = await fetch(SITE.contact.endpoint, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
       body: JSON.stringify({name:f.name.value.trim(), email:f.email.value.trim(), message:f.message.value.trim(), _subject:SITE.contact.subject, _template:"box", _captcha:"false"})});
     const j = await r.json().catch(()=>({}));
-    if(!r.ok || String(j.success)!=="true") throw new Error(j.message||r.status);
+    /* before the form is activated, FormSubmit answers "needs Activation" and emails an activation link instead of the message */
+    if(/activat/i.test(j.message||"")){ say("This form is waiting to be switched on. Please try again soon!","err"); console.warn("FormSubmit:", j.message); return; }
+    if(!r.ok || String(j.success)!=="true") throw new Error(j.message||("HTTP "+r.status));
     cform.reset(); cform.classList.add("sent");
     say("Thanks! Your message is on its way. I'll be in touch soon.","ok");
   }catch(err){
     console.warn("Contact form failed", err);
-    say("Sorry, that didn't send. Please try again in a moment.","err");
+    say(`Sorry, that didn't send. Please try again in a moment.${err && err.message ? ` (${err.message})` : ""}`,"err");
   }finally{ cSend.disabled = false; }
 });
 window.addEventListener("hashchange", ()=> setMode(fromHash()));
