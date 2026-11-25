@@ -315,11 +315,16 @@ a{color:inherit}
 .allhero .tag2{margin-top:12px;font-size:15px;color:#4a5878}
 
 /* the pink bug you chase down the path */
+#bug.front{z-index:3}
 #bug{position:absolute;z-index:2;left:0;top:0;width:0;height:0;pointer-events:none;will-change:transform}
 .bugIn{position:absolute;left:-60px;top:-100px;width:120px;height:110px;transform-origin:60px 100px}
 .bugIn>svg{display:block;width:120px;height:110px;overflow:visible;transform-origin:60px 100px;animation:bugIdle 2.4s ease-in-out infinite}
 #bug.run .bugIn>svg{animation:bugRun .2s ease-in-out infinite alternate}
 .leg{transform-box:fill-box}
+.bugIn>svg{filter:drop-shadow(0 3px 2px rgba(20,33,61,.25))}
+.bugGlow{opacity:0;transition:opacity .5s;transform-box:fill-box;transform-origin:center}
+#bug.caught .bugGlow{opacity:1;animation:bugGlow 1.6s ease-in-out infinite}
+@keyframes bugGlow{0%,100%{transform:scale(.85)}50%{transform:scale(1.08)}}
 .legL{transform-origin:100% 0}
 .legR{transform-origin:0 0}
 #bug.run .l1,#bug.run .r2,#bug.run .l3{animation:legA .2s ease-in-out infinite alternate}
@@ -333,16 +338,17 @@ a{color:inherit}
 #bug.caught .bugSay{opacity:1;transform:translateX(-50%) scale(1)}
 .hearts{position:absolute;left:60px;top:62px;width:0;height:0;opacity:0;transition:opacity .4s}
 #bug.caught .hearts{opacity:1}
-.hearts i{position:absolute;left:-9px;top:-8px;width:18px;height:16px;opacity:0}
-.hearts svg{display:block;width:100%;height:100%;fill:#ff5fa2;transform:rotate(calc(-1*var(--a)))}
-#bug.caught .hearts i{animation:heartOut 2.3s ease-out infinite;animation-delay:var(--d)}
-@keyframes heartOut{0%{transform:rotate(var(--a)) translateY(-14px) scale(.35);opacity:0}15%{opacity:1}100%{transform:rotate(var(--a)) translateY(-92px) scale(1.05);opacity:0}}
+.hearts i{position:absolute;left:-12px;top:-11px;width:24px;height:22px;opacity:0}
+.hearts svg{display:block;width:100%;height:100%;fill:var(--c,#ff5fa2);transform:rotate(calc(-1*var(--a)));filter:drop-shadow(0 2px 2px rgba(20,33,61,.25))}
+#bug.caught .hearts i{animation:heartOut 2.2s ease-out infinite;animation-delay:var(--d)}
+@keyframes heartOut{0%{transform:rotate(var(--a)) translateY(-18px) scale(.3);opacity:0}12%{opacity:1}70%{opacity:1}100%{transform:rotate(var(--a)) translateY(calc(-1*var(--r))) scale(1.15);opacity:0}}
 @keyframes bugIdle{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-1px) scaleY(1.03)}}
 @keyframes bugRun{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-4px) rotate(3deg)}}
 @keyframes legA{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
 @media (prefers-reduced-motion:reduce){
   .bugIn>svg,#bug.run .bugIn>svg,#bug.run .leg{animation:none!important}
-  #bug.caught .hearts i{animation:none!important;opacity:1;transform:rotate(var(--a)) translateY(-64px) scale(.9)}
+  #bug.caught .hearts i{animation:none!important;opacity:1;transform:rotate(var(--a)) translateY(calc(-.6*var(--r))) scale(.9)}
+  #bug.caught .bugGlow{animation:none!important}
   .bugSay,.bFront,.bBack{transition:none!important}
 }
 
@@ -441,6 +447,8 @@ dialog.projDlg::backdrop{background:rgba(20,33,61,.55);-webkit-backdrop-filter:b
 .projBody.noTools{grid-template-columns:1fr}
 .projAbout p{font-size:16px;line-height:1.6;color:#26334f;max-width:62ch}
 .projAbout p+p{margin-top:10px}
+.projAbout .builtWith{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:15px;color:#3a4a6c}
+.builtWith b{font:500 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--amberDeep);margin-right:6px}
 .projTools h3{font:500 11px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--amberDeep);margin-bottom:10px}
 .projTools ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px}
 .projTools li{padding:6px 12px;border-radius:999px;background:#eef1f6;font-weight:500;font-size:13px}
@@ -502,9 +510,17 @@ dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:b
       <div class="sun" id="sunB" aria-hidden="true"></div>
       <canvas id="gl" aria-hidden="true"></canvas>
       <div id="bug" aria-hidden="true"><div class="bugIn">
-        <div class="hearts"><i style="--a:18deg;--d:0.00s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:54deg;--d:0.23s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:90deg;--d:0.46s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:126deg;--d:0.69s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:162deg;--d:0.92s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:198deg;--d:1.15s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:234deg;--d:1.38s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:270deg;--d:1.61s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:306deg;--d:1.84s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:342deg;--d:2.07s"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i></div>
+        <div class="hearts"><i style="--a:-6deg;--d:0.00s;--r:104px;--c:#ff5fa2"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:31deg;--d:0.98s;--r:128px;--c:#ff8fc4"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:39deg;--d:1.96s;--r:104px;--c:#e0579a"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:76deg;--d:0.70s;--r:128px;--c:#ff7eb6"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:84deg;--d:1.68s;--r:104px;--c:#ff5fa2"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:121deg;--d:0.42s;--r:128px;--c:#ff8fc4"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:129deg;--d:1.40s;--r:104px;--c:#e0579a"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:166deg;--d:0.14s;--r:128px;--c:#ff7eb6"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:174deg;--d:1.12s;--r:104px;--c:#ff5fa2"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:211deg;--d:2.10s;--r:128px;--c:#ff8fc4"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:219deg;--d:0.84s;--r:104px;--c:#e0579a"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:256deg;--d:1.82s;--r:128px;--c:#ff7eb6"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:264deg;--d:0.56s;--r:104px;--c:#ff5fa2"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:301deg;--d:1.54s;--r:128px;--c:#ff8fc4"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:309deg;--d:0.28s;--r:104px;--c:#e0579a"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i><i style="--a:346deg;--d:1.26s;--r:128px;--c:#ff7eb6"><svg viewBox="0 0 24 22"><path d="M12 21C5 15 1 11.5 1 7a5.5 5.5 0 0 1 11-1.5A5.5 5.5 0 0 1 23 7c0 4.5-4 8-11 14z"/></svg></i></div>
         <svg viewBox="0 0 120 110">
-          <ellipse cx="60" cy="101" rx="38" ry="7" fill="#14213d" fill-opacity=".2"/>
+          <defs>
+            <radialGradient id="bugShell" cx="36%" cy="28%" r="78%"><stop offset="0" stop-color="#ffd3e8"/><stop offset=".38" stop-color="#ff96c8"/><stop offset=".8" stop-color="#ea5f9f"/><stop offset="1" stop-color="#c94483"/></radialGradient>
+            <radialGradient id="bugHead" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#8d4b78"/><stop offset=".6" stop-color="#5b2a4a"/><stop offset="1" stop-color="#3d1631"/></radialGradient>
+            <radialGradient id="bugShadow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#14213d" stop-opacity=".38"/><stop offset="1" stop-color="#14213d" stop-opacity="0"/></radialGradient>
+            <radialGradient id="bugSpot" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#f27ab3"/><stop offset="1" stop-color="#b8326f"/></radialGradient>
+            <radialGradient id="bugGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8fc4" stop-opacity=".55"/><stop offset="1" stop-color="#ff8fc4" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse class="bugGlow" cx="60" cy="64" rx="70" ry="58" fill="url(#bugGlow)"/>
+          <ellipse cx="60" cy="100" rx="46" ry="10" fill="url(#bugShadow)"/>
           <g fill="none" stroke="#5b2a4a" stroke-width="4" stroke-linecap="round">
             <path class="leg legL l1" d="M36 66L20 74"/><path class="leg legL l2" d="M32 80L15 92"/><path class="leg legL l3" d="M38 92L27 104"/>
             <path class="leg legR r1" d="M84 66L100 74"/><path class="leg legR r2" d="M88 80L105 92"/><path class="leg legR r3" d="M82 92L93 104"/>
@@ -512,19 +528,24 @@ dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:b
           <g class="bBack">
             <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M53 30Q46 12 35 13"/><path d="M67 30Q74 12 85 13"/></g>
             <circle cx="35" cy="13" r="5" fill="#ff7eb6"/><circle cx="85" cy="13" r="5" fill="#ff7eb6"/>
-            <circle cx="60" cy="38" r="15" fill="#5b2a4a"/>
-            <ellipse cx="60" cy="68" rx="38" ry="32" fill="#ff8fc4"/>
-            <path d="M60 37V100" stroke="#e0579a" stroke-width="3"/>
-            <g fill="#e0579a"><circle cx="42" cy="58" r="6"/><circle cx="78" cy="58" r="6"/><circle cx="45" cy="83" r="5"/><circle cx="75" cy="83" r="5"/></g>
-            <ellipse cx="44" cy="50" rx="10" ry="5.5" fill="#fff" fill-opacity=".55" transform="rotate(-28 44 50)"/>
+            <circle cx="60" cy="38" r="15" fill="url(#bugHead)"/>
+            <ellipse cx="60" cy="71" rx="37" ry="29" fill="#b8326f" fill-opacity=".55"/>
+            <ellipse cx="60" cy="68" rx="38" ry="32" fill="url(#bugShell)"/>
+            <path d="M60 37V100" stroke="#c94483" stroke-width="3"/>
+            <path d="M58.5 40V98" stroke="#ffc2df" stroke-width="1" stroke-opacity=".6"/>
+            <g fill="url(#bugSpot)"><circle cx="42" cy="58" r="6"/><circle cx="78" cy="58" r="6"/><circle cx="45" cy="83" r="5"/><circle cx="75" cy="83" r="5"/></g>
+            <ellipse cx="44" cy="50" rx="11" ry="6" fill="#fff" fill-opacity=".7" transform="rotate(-28 44 50)"/>
+            <circle cx="52" cy="45" r="2.2" fill="#fff" fill-opacity=".9"/>
           </g>
           <g class="bFront">
-            <ellipse cx="60" cy="60" rx="40" ry="30" fill="#ff8fc4"/>
-            <g fill="#e0579a"><circle cx="30" cy="52" r="6"/><circle cx="90" cy="52" r="6"/><circle cx="40" cy="36" r="4.5"/><circle cx="80" cy="36" r="4.5"/></g>
+            <ellipse cx="60" cy="60" rx="40" ry="30" fill="url(#bugShell)"/>
+            <g fill="url(#bugSpot)"><circle cx="30" cy="52" r="6"/><circle cx="90" cy="52" r="6"/><circle cx="40" cy="36" r="4.5"/><circle cx="80" cy="36" r="4.5"/></g>
+            <ellipse cx="42" cy="40" rx="9" ry="4.5" fill="#fff" fill-opacity=".6" transform="rotate(-20 42 40)"/>
             <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M50 50Q40 26 28 24"/><path d="M70 50Q80 26 92 24"/></g>
             <path d="M28 30C22 25 20 22 20 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(-4 -8)"/>
             <path d="M92 30C86 25 84 22 84 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(4 -8)"/>
-            <circle cx="60" cy="72" r="25" fill="#5b2a4a"/>
+            <circle cx="60" cy="72" r="25" fill="url(#bugHead)"/>
+            <ellipse cx="52" cy="60" rx="8" ry="4" fill="#fff" fill-opacity=".18" transform="rotate(-20 52 60)"/>
             <circle cx="50" cy="68" r="7" fill="#fff"/><circle cx="70" cy="68" r="7" fill="#fff"/>
             <circle cx="51" cy="69.5" r="3.6" fill="#14213d"/><circle cx="71" cy="69.5" r="3.6" fill="#14213d"/>
             <circle cx="52.6" cy="67.6" r="1.3" fill="#fff"/><circle cx="72.6" cy="67.6" r="1.3" fill="#fff"/>
@@ -586,35 +607,35 @@ const SITE = {
     {label: "Essays",    text: "Writing from my Substack"},
     {label: "Up next",   text: "A lot more still to come"}
   ],
-  /* Each project opens its own page in a window. Optional: tools (list), shots (screenshots), url (adds a Visit site button), details (a longer paragraph). */
+  /* Each project opens its own page in a window. tools = the "Built with" list. Optional: shots (screenshots), url (adds a Visit site button), details (a longer paragraph). */
   projects: [
-    {name: "Binge",        type: "Web app",         host: "binge-eta.vercel.app", blurb: "Rank your favorite TV shows with your friends! See how your tastes compare, browse global rankings, and filter by platform, episode length, series type and more to find your next show.", url: "https://binge-eta.vercel.app/", lizard: true, tools: [],
+    {name: "Binge",        type: "Web app",         host: "binge-eta.vercel.app", blurb: "Rank your favorite TV shows with your friends! See how your tastes compare, browse global rankings, and filter by platform, episode length, series type and more to find your next show.", url: "https://binge-eta.vercel.app/", lizard: true, tools: ["Tool X", "Tool Y"],
      shots: [
        {src: "images/binge-browse.webp",       alt: "Binge's browse page: a grid of new show posters with filters for genre, platform, episode length and format.", caption: "Browse new shows and filter by genre, platform, episode length and format."},
        {src: "images/binge-friends-love.png",  alt: "Binge's home feed: shows your friends love, with ratings, and a list of recent friend activity.", caption: "See what your friends love and what they just finished."},
        {src: "images/binge-my-shows.png",      alt: "Binge's My shows page: a ranked list of TV shows with star ratings and per-season scores.", caption: "Your own ranked list. Drag to reorder."},
        {src: "images/binge-friends.png",       alt: "Binge's Friends page: a friend search, an invite link and friends with a taste-match percentage.", caption: "Add friends and see how well your tastes match."}
      ]},
-    {name: "Rank LA",      type: "Vibe-coded site", host: "rankla.io",          blurb: "My very first project! A site where anyone in LA can rank their 100 favorite places in any category, no matter how specific, and add new categories of their own.", url: "https://rankla.io/", tools: [],
+    {name: "Rank LA",      type: "Vibe-coded site", host: "rankla.io",          blurb: "My very first project! A site where anyone in LA can rank their 100 favorite places in any category, no matter how specific, and add new categories of their own.", url: "https://rankla.io/", tools: ["Tool X", "Tool Y"],
      shots: [
        {src: "images/rankla-home.png",        alt: "The Rank LA home page in a pixel-art style: a search box and category cards like Restaurants, Coffee Shops, Museums and Beaches.", caption: "Pick a category to rank, or add a new one."},
        {src: "images/rankla-restaurants.png", alt: "Rank LA's Restaurants high scores: a numbered list of restaurants with points and how many players ranked them.", caption: "Every player's rankings add up to the city's high scores."},
        {src: "images/rankla-search.png",      alt: "Rank LA search results for sushi: a Sushi category and places with their rank in each category.", caption: "Search across every category and place."}
      ]},
     {name: "Digital Scrapbook Travel Shelf", type: "Vibe-coded site", host: "travel-shelf · personal project", blurb: "A personal project so I can create a digital scrapbook for every trip I take this year.", url: "",
-     tools: [],
+     tools: ["Tool X", "Tool Y"],
      shots: [
        {src: "images/travel-shelf.png",    alt: "The Travel Shelf: two rows of colorful book spines, one book per trip.", caption: "The shelf. Every trip gets its own book."},
        {src: "images/scrapbook-page.webp", alt: "An open scrapbook spread with a photo frame, sticky note, activity notes, a map of Portugal, stamps and stickers.", caption: "Inside a book. Photos, notes, stickers and maps you can drag anywhere."}
      ]},
-    {name: "Chicken Hunt", type: "Vibe-coded site", host: "chickenhunt-coral.vercel.app", blurb: "A site I custom built for my fiancé's and my birthday party: a bar-hopping game called Chicken Hunt!", url: "https://chickenhunt-coral.vercel.app/", tools: [],
+    {name: "Chicken Hunt", type: "Vibe-coded site", host: "chickenhunt-coral.vercel.app", blurb: "A site I custom built for my fiancé's and my birthday party: a bar-hopping game called Chicken Hunt!", url: "https://chickenhunt-coral.vercel.app/", tools: ["Tool X", "Tool Y"],
      shots: [
        {src: "images/chickenhunt-welcome.png", alt: "Chicken Hunt's welcome screen: hatch a new team, name it and pick a farm-animal mascot.", caption: "Hatch a team and pick a mascot."},
        {src: "images/chickenhunt-map.png",     alt: "Chicken Hunt's map of Santa Monica with eight numbered bar pins.", caption: "The hunting grounds: every bar on the crawl, pinned."},
        {src: "images/chickenhunt-vision.png",  alt: "Chicken Hunt's Chicken vision screen listing each team, its members and the bars they've checked in to.", caption: "Chicken vision: only the chickens can see where every team has been."}
      ]},
     {name: "Lifely", type: "Web app", host: "lifely · personal project", blurb: "A personal life-admin dashboard connected to Instinct, an AI agent that updates me daily on my schedule, to-do items, chores and any upcoming travel.", url: "",
-     tools: [],
+     tools: ["Tool X", "Tool Y"],
      shots: [
        {src: "images/lifely-dashboard.png", fit: "contain", alt: "The Lifely dashboard: pastel tiles for calendar, to-do list, wedding planning, chores, household projects, upcoming travel, self care, shopping list and Christmas presents.", caption: "The dashboard. Everything from chores to upcoming trips at a glance."}
      ]}
@@ -1003,6 +1024,10 @@ function layout(){
   update();
 }
 
+/* how far left of the path the camera starts (more on narrow screens, where the sign fills the width) */
+const START_OFF = () => vw < 760 ? 3.4 : 2.6;
+const startOff = camS => START_OFF() * (1 - smooth(0, GAP*.7, camS));
+
 /* scroll position to distance along the route, lingering at every stop */
 function camDist(p){
   const seg = N-1, x = p*seg, k = Math.min(seg-1, Math.floor(x)), t = x-k;
@@ -1042,9 +1067,11 @@ function render(p){
 
   /* camera walks the route, looks ahead and leans into bends */
   const bob = 0;
-  camera.position.set(pathX(camS), CAMY+bob, -camS);
+  /* at the trailhead the camera stands on the grass left of the path, then steps onto it as you start walking */
+  const co = startOff(camS);
+  camera.position.set(pathX(camS) - co, CAMY+bob, -camS);
   const LA = 14;
-  camera.lookAt(pathX(camS+LA), CAMY-LA*PITCH, -(camS+LA));
+  camera.lookAt(pathX(camS+LA) - co, CAMY-LA*PITCH, -(camS+LA));
   camera.updateMatrixWorld(true);
   renderer.render(scene,camera);
 
@@ -1074,7 +1101,7 @@ function render(p){
   let best=0, bd=Infinity;
   stopEls.forEach((el,i)=>{
     const m = stopMeta[i];
-    V1.set(pathX(m.s)+m.side*m.off, m.ay, -m.s);
+    V1.set(i===0 ? pathX(m.s) - START_OFF() - (vw<760 ? 0 : 2.6) : pathX(m.s)+m.side*m.off, m.ay, -m.s);
     const dist = camera.position.distanceTo(V1);
     V1.project(camera);
     const o0 = V1.z>1 ? 0 : smooth(46,36,dist)*(1-smooth(m.d0-3,m.d0-10,dist));
@@ -1116,21 +1143,24 @@ function render(p){
 
 /* ---------- the bug: always a few steps ahead on the path, until you catch it at the end ---------- */
 const bugEl = $("#bug");
-const BUG_W = .95;                 /* world units across */
+const BUG_W = .72;                 /* world units across */
 let bugLastS = null;
 function placeBug(camS){
   const END = (N-1)*GAP;
   const near = smooth(END - 1.4*GAP, END - 1, camS);      /* closes the gap over the last stretch */
-  const lead = lerp(9.5, 4.4, near);
+  const go = smooth(0, GAP*.45, camS);                     /* 0 at the trailhead, 1 once you're walking */
+  const lead = lerp(lerp(3.3, 9.5, go), 4.4, near);       /* waits just in front of you at the start */
   const bs = camS + lead;
   const wig = .3*Math.sin(bs*.55)*(1-near);                /* scuttles side to side on the path */
-  V1.set(pathX(bs) + wig, .04, -bs);
+  /* at the start it sits on the grass in front of the sign (on phones) or at the edge of the path, then runs onto the path */
+  const startX = vw<760 ? pathX(bs) - startOff(camS) + .25 : pathX(bs);
+  V1.set(lerp(startX, pathX(bs) + wig, go), .04, -bs);
   const dist = camera.position.distanceTo(V1);
   V1.project(camera);
   if(V1.z > 1){ bugEl.style.opacity = "0"; return; }
   let sx = (V1.x*.5+.5)*vw, sy = (-V1.y*.5+.5)*H;
   const px = BUG_W * (H/2) / Math.tan(camera.fov*Math.PI/360) / dist;
-  const sc = clamp(px/120, .18, 1.5);
+  const sc = clamp(px/120, .18, .9);
   /* at the finish, keep the bug and its caption clear of the end card */
   const endEl = stopEls[N-1];
   if(near > 0 && endEl && +endEl.style.opacity > .02){
@@ -1147,6 +1177,7 @@ function placeBug(camS){
   bugEl.firstElementChild.style.transform = `scale(${sc.toFixed(3)}) rotate(${rot.toFixed(1)}deg)`;
   const caught = camS > END - 2;
   bugEl.classList.toggle("caught", caught);
+  bugEl.classList.toggle("front", go < .3);
   bugEl.classList.toggle("run", !caught && bugLastS!==null && Math.abs(camS - bugLastS) > .02);
   bugLastS = camS;
 }
@@ -1250,11 +1281,11 @@ function openProject(pi){
     ? `<figure class="projFig"><div class="projShot"><img id="projImg" alt="">${many ? `<button type="button" class="projArrow prev" data-act="shotprev" aria-label="Previous screenshot">←</button><button type="button" class="projArrow next" data-act="shotnext" aria-label="Next screenshot">→</button>` : ""}</div>
        <figcaption><span id="projCap"></span>${many ? ` <span class="projCount" id="projCount" aria-live="polite"></span>` : ""}</figcaption></figure>`
     : `<div class="projArt">${winArt(pi)}</div>`;
-  const tools = (p.tools||[]).length ? `<div class="projTools"><h3>Tools used</h3><ul>${p.tools.map(t=>`<li>${t}</li>`).join("")}</ul></div>` : "";
+  const built = (p.tools||[]).length ? `<p class="builtWith"><b>Built with:</b> ${p.tools.join(", ")}</p>` : "";
   projDlg.innerHTML = `<button type="button" class="cclose" data-act="projclose" aria-label="Close">&times;</button>
     <div class="projHead"><p class="eyebrow">Project · ${p.type}</p><h2 id="projTitle">${p.name}</h2></div>
     <div class="projMedia">${media}</div>
-    <div class="projBody${tools ? "" : " noTools"}"><div class="projAbout"><p>${p.blurb}</p>${p.details ? `<p>${p.details}</p>` : ""}</div>${tools}</div>
+    <div class="projBody noTools"><div class="projAbout"><p>${p.blurb}</p>${p.details ? `<p>${p.details}</p>` : ""}${built}</div></div>
     <div class="projFoot">${p.url
       ? `<a class="btn solid" href="${p.url}" target="_blank" rel="noopener">Visit site <span aria-hidden="true">↗</span></a><span class="projHost">${p.host}</span>`
       : `<span class="projHost">Personal project, not publicly available.</span>`}</div>`;
