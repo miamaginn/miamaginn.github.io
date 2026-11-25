@@ -311,7 +311,18 @@ a{color:inherit}
   .rows a:hover{padding-left:4px}
 }
 
-.stag2{margin-top:8px!important;font-size:13px;opacity:.92}
+.stag2{margin-top:10px!important;font-size:15px;opacity:.95}
+.signTop{display:grid;grid-template-columns:1fr 210px;gap:18px;align-items:start;margin-bottom:12px}
+.signIntro h1{margin-bottom:0!important}
+.signTop .mapBox{transform:rotate(1.2deg)}
+.signBoard .stag{font-size:16.5px;line-height:1.5;max-width:none}
+.signBoard .stag+.stag2{margin-top:10px!important}
+.mapCap{font-size:10px!important}
+@media (max-width:560px){
+  .sign{width:400px}
+  .signTop{grid-template-columns:1fr 150px;gap:12px}
+  .signBoard h1{font-size:46px}
+}
 .allhero .tag2{margin-top:12px;font-size:15px;color:#4a5878}
 
 /* the pink bug you chase down the path */
@@ -458,6 +469,16 @@ dialog.projDlg::backdrop{background:rgba(20,33,61,.55);-webkit-backdrop-filter:b
 @media (max-width:700px){ .projBody{grid-template-columns:1fr;gap:18px} .projHead{padding:18px 56px 12px 18px} .projMedia{margin:0 18px} .projBody{padding:16px 18px 2px} .projFoot{padding:16px 18px 20px} .projShot img{height:min(42dvh,360px)} }
 @media (prefers-reduced-motion:reduce){ dialog.projDlg[open]{animation:none} }
 
+/* TikTok carousel (plain page) */
+.ttWrap{position:relative}
+.ttRow{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 16px;scrollbar-width:thin;overscroll-behavior-x:contain}
+.ttCard{flex:none;width:min(270px,72vw);aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#14141a;scroll-snap-align:start;box-shadow:0 14px 34px rgba(20,33,61,.18)}
+.ttCard iframe{display:block;width:100%;height:100%;border:0}
+.ttNav{position:absolute;z-index:2;top:calc(50% - 30px);width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 8px 22px rgba(20,33,61,.25);color:var(--ink);font:500 18px/1 var(--body);cursor:pointer}
+.ttNav:hover{background:var(--amber)}
+.ttNav.prev{left:-14px}.ttNav.next{right:-14px}
+@media (max-width:700px){ .ttNav{display:none} }
+
 /* contact form */
 dialog.contact{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(20,33,61,.35);overflow:auto}
 dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -514,43 +535,44 @@ dialog.contact::backdrop{background:rgba(20,33,61,.38);-webkit-backdrop-filter:b
         <svg viewBox="0 0 120 110">
           <defs>
             <radialGradient id="bugShell" cx="36%" cy="28%" r="78%"><stop offset="0" stop-color="#ffd3e8"/><stop offset=".38" stop-color="#ff96c8"/><stop offset=".8" stop-color="#ea5f9f"/><stop offset="1" stop-color="#c94483"/></radialGradient>
-            <radialGradient id="bugHead" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#8d4b78"/><stop offset=".6" stop-color="#5b2a4a"/><stop offset="1" stop-color="#3d1631"/></radialGradient>
+            <radialGradient id="bugFace" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#fff6f9"/><stop offset=".65" stop-color="#ffe0ec"/><stop offset="1" stop-color="#f6bcd4"/></radialGradient>
             <radialGradient id="bugShadow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#14213d" stop-opacity=".38"/><stop offset="1" stop-color="#14213d" stop-opacity="0"/></radialGradient>
             <radialGradient id="bugSpot" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#f27ab3"/><stop offset="1" stop-color="#b8326f"/></radialGradient>
             <radialGradient id="bugGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8fc4" stop-opacity=".55"/><stop offset="1" stop-color="#ff8fc4" stop-opacity="0"/></radialGradient>
           </defs>
           <ellipse class="bugGlow" cx="60" cy="64" rx="70" ry="58" fill="url(#bugGlow)"/>
-          <ellipse cx="60" cy="100" rx="46" ry="10" fill="url(#bugShadow)"/>
-          <g fill="none" stroke="#5b2a4a" stroke-width="4" stroke-linecap="round">
-            <path class="leg legL l1" d="M36 66L20 74"/><path class="leg legL l2" d="M32 80L15 92"/><path class="leg legL l3" d="M38 92L27 104"/>
-            <path class="leg legR r1" d="M84 66L100 74"/><path class="leg legR r2" d="M88 80L105 92"/><path class="leg legR r3" d="M82 92L93 104"/>
-          </g>
+          <ellipse cx="62" cy="100" rx="44" ry="9" fill="url(#bugShadow)"/>
           <g class="bBack">
-            <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M53 30Q46 12 35 13"/><path d="M67 30Q74 12 85 13"/></g>
-            <circle cx="35" cy="13" r="5" fill="#ff7eb6"/><circle cx="85" cy="13" r="5" fill="#ff7eb6"/>
-            <circle cx="60" cy="38" r="15" fill="url(#bugHead)"/>
-            <ellipse cx="60" cy="71" rx="37" ry="29" fill="#b8326f" fill-opacity=".55"/>
-            <ellipse cx="60" cy="68" rx="38" ry="32" fill="url(#bugShell)"/>
-            <path d="M60 37V100" stroke="#c94483" stroke-width="3"/>
-            <path d="M58.5 40V98" stroke="#ffc2df" stroke-width="1" stroke-opacity=".6"/>
-            <g fill="url(#bugSpot)"><circle cx="42" cy="58" r="6"/><circle cx="78" cy="58" r="6"/><circle cx="45" cy="83" r="5"/><circle cx="75" cy="83" r="5"/></g>
-            <ellipse cx="44" cy="50" rx="11" ry="6" fill="#fff" fill-opacity=".7" transform="rotate(-28 44 50)"/>
-            <circle cx="52" cy="45" r="2.2" fill="#fff" fill-opacity=".9"/>
+            <g fill="none" stroke="#6e2f52" stroke-width="4.5" stroke-linecap="round"><path class="leg legR l1" d="M58 84L54 99"/><path class="leg legR r1" d="M71 87L71 101"/><path class="leg legR l3" d="M85 84L89 98"/></g>
+            <ellipse cx="72" cy="80" rx="27" ry="11" fill="#ffd6e7" stroke="#6e2f52" stroke-width="2.5"/>
+            <ellipse cx="76" cy="63" rx="31" ry="25" fill="url(#bugShell)" stroke="#6e2f52" stroke-width="3"/>
+            <path d="M58 47Q79 60 105 69" fill="none" stroke="#c94483" stroke-width="2.4" stroke-linecap="round"/>
+            <g fill="url(#bugSpot)"><circle cx="71" cy="51" r="4.6"/><circle cx="88" cy="55" r="5"/><circle cx="98" cy="66" r="3.8"/><circle cx="80" cy="71" r="4.4"/><circle cx="64" cy="65" r="3.4"/></g>
+            <ellipse cx="70" cy="45" rx="9" ry="4" fill="#fff" fill-opacity=".65" transform="rotate(-18 70 45)"/>
+            <g fill="none" stroke="#6e2f52" stroke-width="3.2" stroke-linecap="round"><path d="M36 37C33 26 28 18 22 16C17 15 16 21 21 22"/><path d="M49 36C52 25 57 17 63 15C68 14 70 20 65 21"/></g>
+            <circle cx="42" cy="60" r="25" fill="url(#bugFace)" stroke="#6e2f52" stroke-width="3"/>
+            <ellipse cx="34" cy="47" rx="8" ry="4" fill="#fff" fill-opacity=".7" transform="rotate(-25 34 47)"/>
+            <ellipse cx="33" cy="61" rx="7.5" ry="8.5" fill="#24132a"/><ellipse cx="51" cy="61" rx="7.5" ry="8.5" fill="#24132a"/>
+            <circle cx="35.6" cy="57.4" r="2.9" fill="#fff"/><circle cx="31.4" cy="64.4" r="1.3" fill="#fff"/>
+            <circle cx="53.6" cy="57.4" r="2.9" fill="#fff"/><circle cx="49.4" cy="64.4" r="1.3" fill="#fff"/>
+            <ellipse cx="25.5" cy="71" rx="4.6" ry="2.8" fill="#ff7eb6" fill-opacity=".75"/><ellipse cx="58.5" cy="71" rx="4.6" ry="2.8" fill="#ff7eb6" fill-opacity=".75"/>
+            <path d="M38.5 70Q42 75.5 45.5 70Z" fill="#e0477f" stroke="#6e2f52" stroke-width="1.3" stroke-linejoin="round"/>
           </g>
           <g class="bFront">
-            <ellipse cx="60" cy="60" rx="40" ry="30" fill="url(#bugShell)"/>
-            <g fill="url(#bugSpot)"><circle cx="30" cy="52" r="6"/><circle cx="90" cy="52" r="6"/><circle cx="40" cy="36" r="4.5"/><circle cx="80" cy="36" r="4.5"/></g>
-            <ellipse cx="42" cy="40" rx="9" ry="4.5" fill="#fff" fill-opacity=".6" transform="rotate(-20 42 40)"/>
-            <g fill="none" stroke="#5b2a4a" stroke-width="3.5" stroke-linecap="round"><path d="M50 50Q40 26 28 24"/><path d="M70 50Q80 26 92 24"/></g>
-            <path d="M28 30C22 25 20 22 20 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(-4 -8)"/>
-            <path d="M92 30C86 25 84 22 84 20a3.4 3.4 0 0 1 8-1a3.4 3.4 0 0 1 8 1c0 2-2 5-8 10z" fill="#ff5fa2" transform="translate(4 -8)"/>
-            <circle cx="60" cy="72" r="25" fill="url(#bugHead)"/>
-            <ellipse cx="52" cy="60" rx="8" ry="4" fill="#fff" fill-opacity=".18" transform="rotate(-20 52 60)"/>
-            <circle cx="50" cy="68" r="7" fill="#fff"/><circle cx="70" cy="68" r="7" fill="#fff"/>
-            <circle cx="51" cy="69.5" r="3.6" fill="#14213d"/><circle cx="71" cy="69.5" r="3.6" fill="#14213d"/>
-            <circle cx="52.6" cy="67.6" r="1.3" fill="#fff"/><circle cx="72.6" cy="67.6" r="1.3" fill="#fff"/>
-            <ellipse cx="42" cy="80" rx="5" ry="3.2" fill="#ff7eb6" fill-opacity=".85"/><ellipse cx="78" cy="80" rx="5" ry="3.2" fill="#ff7eb6" fill-opacity=".85"/>
-            <path d="M54 81Q60 87 66 81" fill="none" stroke="#ffd1e6" stroke-width="2.6" stroke-linecap="round"/>
+            <g fill="none" stroke="#6e2f52" stroke-width="4.5" stroke-linecap="round"><path d="M46 88L42 100"/><path d="M60 92L60 102"/><path d="M74 88L78 100"/></g>
+            <ellipse cx="60" cy="58" rx="43" ry="28" fill="url(#bugShell)" stroke="#6e2f52" stroke-width="3"/>
+            <g fill="url(#bugSpot)"><circle cx="25" cy="54" r="5"/><circle cx="95" cy="54" r="5"/><circle cx="35" cy="40" r="4"/><circle cx="85" cy="40" r="4"/><circle cx="22" cy="68" r="3.4"/><circle cx="98" cy="68" r="3.4"/></g>
+            <ellipse cx="34" cy="38" rx="9" ry="4" fill="#fff" fill-opacity=".6" transform="rotate(-20 34 38)"/>
+            <g fill="none" stroke="#6e2f52" stroke-width="3.2" stroke-linecap="round"><path d="M52 42C48 29 42 21 35 19"/><path d="M68 42C72 29 78 21 85 19"/></g>
+            <path d="M35 24C29 20 28 17 28 15.5a3.5 3.5 0 0 1 7-1a3.5 3.5 0 0 1 7 1C42 17 41 20 35 24z" fill="#ff5fa2" stroke="#6e2f52" stroke-width="1.2"/>
+            <path d="M85 24C79 20 78 17 78 15.5a3.5 3.5 0 0 1 7-1a3.5 3.5 0 0 1 7 1C92 17 91 20 85 24z" fill="#ff5fa2" stroke="#6e2f52" stroke-width="1.2"/>
+            <circle cx="60" cy="67" r="27" fill="url(#bugFace)" stroke="#6e2f52" stroke-width="3"/>
+            <ellipse cx="50" cy="53" rx="9" ry="4" fill="#fff" fill-opacity=".7" transform="rotate(-20 50 53)"/>
+            <ellipse cx="50" cy="66" rx="7.5" ry="8.5" fill="#24132a"/><ellipse cx="70" cy="66" rx="7.5" ry="8.5" fill="#24132a"/>
+            <circle cx="52.6" cy="62.4" r="2.9" fill="#fff"/><circle cx="48.4" cy="69.4" r="1.3" fill="#fff"/>
+            <circle cx="72.6" cy="62.4" r="2.9" fill="#fff"/><circle cx="68.4" cy="69.4" r="1.3" fill="#fff"/>
+            <ellipse cx="40" cy="77" rx="5" ry="3" fill="#ff7eb6" fill-opacity=".75"/><ellipse cx="80" cy="77" rx="5" ry="3" fill="#ff7eb6" fill-opacity=".75"/>
+            <path d="M55 76Q60 83 65 76Z" fill="#e0477f" stroke="#6e2f52" stroke-width="1.3" stroke-linejoin="round"/>
           </g>
         </svg>
         <div class="bugSay">You caught the bug!</div>
@@ -599,7 +621,7 @@ const SITE = {
   updates: "New things are added all the time, so come back and visit for updates.",
   bio: [
     "Born and raised in Boston, I moved to LA to study Economics and NGOs & Social Change at USC. I'm fascinated by the intersection of economics, tech and culture.",
-    "Here you'll find the websites and web apps I've been building, along with the articles I've been writing on Substack and the content I've been making about my vibe-coding journey."
+    "Here you'll find the websites and web apps I've been building, along with the articles I've been writing on Substack, and links to check out my vibe-coding journey."
   ],
   route: [
     {label: "About",     text: "A short bio"},
@@ -640,6 +662,9 @@ const SITE = {
        {src: "images/lifely-dashboard.png", fit: "contain", alt: "The Lifely dashboard: pastel tiles for calendar, to-do list, wedding planning, chores, household projects, upcoming travel, self care, shopping list and Christmas presents.", caption: "The dashboard. Everything from chores to upcoming trips at a glance."}
      ]}
   ],
+  /* most recent TikToks, newest first: paste in the number from the end of a video's link to add one */
+  tiktok: {handle: "@heyyyyitsmi", url: "https://www.tiktok.com/@heyyyyitsmi",
+    videos: ["7710054803186928910", "7709687292889222414", "7708903155215518989", "7707815148949392654", "7707396638599335181", "7641777628524891406"]},
   /* the "more" link under the essays */
   substack: {name: "Mi Thinks", url: "https://substack.com/@mithinks"},
   essays: [
@@ -773,7 +798,7 @@ function winHTML(i,p){
     <div class="wbody">${eb(i,"Project · "+p.type)}<h2>${p.name}</h2><p>${p.blurb}</p>${projLink(p, i-P0)}</div></div></div>`;
 }
 function signHTML(){
-  const pins=[[30,158,"You are here"],[96,124],[150,100],[206,70],[262,36]].map((p,k)=>k ? [p[0],p[1],`${k} ${(SITE.route[k-1]||{}).label||""}`] : p);
+  const pins=[[30,158,"You are here"],[96,124],[150,100],[206,70],[262,36]].map((p,k)=>k ? [p[0],p[1],(SITE.route[k-1]||{}).label||""] : p);
   const map=`<svg viewBox="0 0 300 190" aria-hidden="true">
     <rect width="300" height="190" fill="#f3e4c0"/>
     <path d="${ridgePath(300,190,.6,.5,.16,.55)}" fill="#cfd9c0"/>
@@ -781,8 +806,8 @@ function signHTML(){
     <path d="${ridgePath(300,190,3.9,.84,.12,.4)}" fill="#86aa8e"/>
     <path d="M30 158C70 152 70 120 110 116S170 108 184 84S250 52 262 36" fill="none" stroke="#7a4a22" stroke-width="2.6" stroke-dasharray="2 6" stroke-linecap="round"/>
     ${pins.map((p,i)=>i===0
-      ? `<g><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#d9573c" fill-opacity=".25"/><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#d9573c"/><text x="${p[0]+8}" y="${p[1]+15}" font-family="Geist Mono, monospace" font-size="9" fill="#6d3a1a">${p[2]}</text></g>`
-      : `<g><circle cx="${p[0]}" cy="${p[1]}" r="5.5" fill="#f2a03d" stroke="#7a4a22" stroke-width="1.5"/><text x="${i===4?p[0]-9:p[0]+9}" ${i===4?'text-anchor="end"':""} y="${p[1]-7}" font-family="Geist Mono, monospace" font-size="9" fill="#4a2a10">${p[2]}</text></g>`).join("")}
+      ? `<g><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#d9573c" fill-opacity=".25"/><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#d9573c"/><text x="${p[0]+6}" y="${p[1]+20}" font-family="Geist Mono, monospace" font-size="14" font-weight="500" fill="#6d3a1a">${p[2]}</text></g>`
+      : `<g><circle cx="${p[0]}" cy="${p[1]}" r="5.5" fill="#f2a03d" stroke="#7a4a22" stroke-width="1.5"/><text x="${i===4?p[0]-10:p[0]+10}" ${i===4?'text-anchor="end"':""} y="${p[1]-9}" font-family="Geist Mono, monospace" font-size="15" font-weight="500" fill="#4a2a10">${p[2]}</text></g>`).join("")}
     <g transform="translate(266 160)" fill="#6d3a1a"><circle r="11" fill="none" stroke="#6d3a1a" stroke-width="1"/><path d="M0-9L3 0L0 9L-3 0Z"/><text y="-14" text-anchor="middle" font-family="Geist Mono, monospace" font-size="8">N</text></g>
   </svg>`;
   const groundBits=`<svg class="signGround" viewBox="0 0 520 60" aria-hidden="true"><ellipse cx="260" cy="40" rx="250" ry="14" fill="#000" fill-opacity=".22"/><path d="M82 36l-4-16 8 12 3-14 5 14 8-10-3 14zM384 36l-4-14 8 11 3-13 5 13 8-9-3 13zM130 36l-3-12 6 9 3-11 4 11 6-8-2 11zM430 36l-3-12 6 9 3-11 4 11 6-8-2 11z" fill="#4f7a43"/><ellipse cx="70" cy="39" rx="9" ry="4" fill="#8d7f6c"/><ellipse cx="455" cy="40" rx="7" ry="3.5" fill="#8d7f6c"/></svg>`;
@@ -793,14 +818,12 @@ function signHTML(){
     const x=cx+(r1-.5)*74, edge=1-Math.abs(r1-.5)*1.3; gb+=blade(x,14+edge*30*(.5+r2*.6),(r3-.5)*16,1.2+r2*1.4,GR[Math.floor(r3*GR.length*.999)]); } });
   const grassFront=`<svg class="signGrass" viewBox="0 0 520 60" aria-hidden="true">${gb}</svg>`;
   return `<div class="sign"><div class="signBoard">
-    <p class="eyebrow">Trailhead · Start</p>
-    <h1>Hi, I'm <em>${SITE.name}</em>.</h1>
+    <div class="signTop">
+      <div class="signIntro"><p class="eyebrow">Trailhead · Start</p><h1>Hi, I'm <em>${SITE.name}</em>.</h1></div>
+      <div class="mapBox">${map}<span class="mapCap">Trail map</span></div>
+    </div>
     <p class="stag">${SITE.tagline}</p>
     <p class="stag stag2">${SITE.chase} ${SITE.updates}</p>
-    <div class="signGrid">
-      <div class="mapBox">${map}<span class="mapCap">Trail map</span></div>
-      <ul class="stops4">${SITE.route.map((r,k)=>`<li><i>${k+1}</i><span><b>${r.label}</b>${r.text}</span></li>`).join("")}</ul>
-    </div>
     <div class="signFoot"><span class="eyebrow">Find me</span>${SITE.socials.map(x=>`<a href="${x.url}" target="_blank" rel="noopener">${x.name}</a>`).join("")}</div>
     <p class="hint">Scroll to start walking <span aria-hidden="true">↓</span></p>
   </div>${groundBits}${grassFront}</div>`;
@@ -858,6 +881,11 @@ function buildAll(){
     </div></section>
   <section class="wrap sec"><h2 class="sh">Essays <small>${SITE.substack.name} on Substack</small></h2>
     <ul class="rows">${SITE.essays.map(e=>`<li><a href="${e.url}" target="_blank" rel="noopener">${e.title}<span>${e.meta} →</span></a></li>`).join("")}</ul><a class="link moreLink" href="${SITE.substack.url}" target="_blank" rel="noopener">More on ${SITE.substack.name} →</a></section>
+  <section class="wrap sec"><h2 class="sh">On TikTok <small>${SITE.tiktok.handle}</small></h2>
+    <div class="ttWrap"><button class="ttNav prev" type="button" data-act="ttprev" aria-label="Previous videos">←</button>
+      <div class="ttRow" id="ttRow" tabindex="0" aria-label="My most recent TikToks">${SITE.tiktok.videos.map((id,k)=>`<div class="ttCard"><iframe src="https://www.tiktok.com/player/v1/${id}?music_info=0&description=0&rel=0" loading="lazy" allow="fullscreen; encrypted-media; picture-in-picture" title="TikTok video ${k+1}"></iframe></div>`).join("")}</div>
+      <button class="ttNav next" type="button" data-act="ttnext" aria-label="More videos">→</button></div>
+    <a class="link moreLink" href="${SITE.tiktok.url}" target="_blank" rel="noopener">More on TikTok →</a></section>
   <section class="wrap sec"><h2 class="sh">Elsewhere</h2>${socialPills()}</section>
   <footer class="end">
     <div class="dot" aria-hidden="true"></div>
@@ -880,7 +908,7 @@ const LOW = (navigator.hardwareConcurrency||8) <= 4 || (navigator.deviceMemory||
 /* WebGL check up front, so browsers without it land on the plain page instead of a blank stage */
 let noGL = !(()=>{ try{ const c=document.createElement("canvas"); return !!(T3 && window.WebGLRenderingContext && (c.getContext("webgl2")||c.getContext("webgl"))); }catch(e){ return false; } })();
 
-const GAP = 60;           /* world units between stops */
+const GAP = 50;           /* world units between stops */
 const D0 = 16;            /* a card is at natural size this far ahead of the camera */
 const SEND = (N-1)*GAP + 260;
 const CAMY = 1.8, PITCH = 0.092;
@@ -993,7 +1021,7 @@ function layout(){
   vw = window.innerWidth; H = window.innerHeight;
   U = clamp(H/800,.7,1.1);
   HY = Math.round(H*.42);
-  segScroll = Math.round(clamp(H*.42,300,400));
+  segScroll = Math.round(clamp(H*.34,240,320));
   scrollerH = H + (N-1)*segScroll;
   scroller.style.height = scrollerH+"px";
   stage.style.height = H+"px";
@@ -1001,6 +1029,7 @@ function layout(){
   skies.forEach((el,i)=>{ el.style.background = `linear-gradient(${PALS[i].top},${PALS[i].bot})`; });
 
   const narrow = vw < 760;
+  WIDTHS[0] = vw < 560 ? 400 : 520;
   stopMeta = Array.from({length:N},(_,i)=>({d0:i===0?6.5:D0, s:i*GAP+(i===0?4.5:D0), u:Math.min(U,(vw-24)/WIDTHS[i]), side:narrow?0:(i%2?1:-1), off:i===0?3.9:i===1?5.2:6.5, ay:i===0?0:2.5, bottom:i===0}));
   stopsEl.innerHTML = stopMeta.map((m,i)=>{
     let inner;
@@ -1144,7 +1173,8 @@ function render(p){
 /* ---------- the bug: always a few steps ahead on the path, until you catch it at the end ---------- */
 const bugEl = $("#bug");
 const BUG_W = .72;                 /* world units across */
-let bugLastS = null;
+let bugLastS = null, bugFlip = false;
+const bugBack = bugEl.querySelector(".bBack");
 function placeBug(camS){
   const END = (N-1)*GAP;
   const near = smooth(END - 1.4*GAP, END - 1, camS);      /* closes the gap over the last stretch */
@@ -1175,6 +1205,10 @@ function placeBug(camS){
   bugEl.style.opacity = "1";
   bugEl.style.transform = `translate3d(${sx.toFixed(1)}px,${sy.toFixed(1)}px,0)`;
   bugEl.firstElementChild.style.transform = `scale(${sc.toFixed(3)}) rotate(${rot.toFixed(1)}deg)`;
+  const dir = Math.cos(bs*.55);
+  if(go > .5 && Math.abs(dir) > .25) bugFlip = dir > 0;
+  if(go <= .5) bugFlip = false;
+  bugBack.setAttribute("transform", bugFlip ? "translate(124 0) scale(-1 1)" : "");
   const caught = camS > END - 2;
   bugEl.classList.toggle("caught", caught);
   bugEl.classList.toggle("front", go < .3);
@@ -1247,6 +1281,7 @@ document.addEventListener("click", e=>{
   else if(a==="contact") openContact();
   else if(a==="close") contactDlg.close();
   else if(a==="proj") openProject(+b.dataset.p);
+  else if(a==="ttprev" || a==="ttnext"){ const row=$("#ttRow"), card=row.querySelector(".ttCard"); row.scrollBy({left:(a==="ttnext"?1:-1)*(card.offsetWidth+16), behavior:scrollBehavior()}); }
   else if(a==="projclose") projDlg.close();
   else if(a==="shotprev") showShot(shotAt-1);
   else if(a==="shotnext") showShot(shotAt+1);
